@@ -12,6 +12,7 @@ import {
 import { MyQuery, MyDataSourceOptions, DEFAULT_QUERY, DataSourceResponse } from './types';
 import { lastValueFrom } from 'rxjs';
 import { VariableSupport } from 'variables';
+import { annotationSupport } from 'annotations';
 
 export class DataSource extends DataSourceApi<MyQuery, MyDataSourceOptions> {
   baseUrl: string;
@@ -20,6 +21,7 @@ export class DataSource extends DataSourceApi<MyQuery, MyDataSourceOptions> {
     super(instanceSettings);
     this.baseUrl = instanceSettings.url!;
     this.variables = new VariableSupport();
+    this.annotations = annotationSupport;
   }
 
   getDefaultQuery(_: CoreApp): Partial<MyQuery> {

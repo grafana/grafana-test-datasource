@@ -4,6 +4,7 @@
   "name": "Test-Datasource",
   "id": "grafana-test-datasource",
   "metrics": true,
+  "annotations": true,
   "info": {
     "description": "",
     "author": {
