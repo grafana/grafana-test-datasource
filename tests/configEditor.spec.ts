@@ -1,5 +1,4 @@
 import { test, expect } from '@grafana/plugin-e2e';
-import { MyDataSourceOptions, MySecureJsonData } from '../src/types';
 
 test('"Save & test" should be successful when configuration is valid', async ({
   createDataSourceConfigPage,
