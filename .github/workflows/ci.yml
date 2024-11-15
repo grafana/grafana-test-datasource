@@ -102,11 +102,11 @@ jobs:
           mv dist ${{ steps.metadata.outputs.plugin-id }}
           zip ${{ steps.metadata.outputs.archive }} ${{ steps.metadata.outputs.plugin-id }} -r
 
-      # - name: Check plugin.json
-      #   run: |
-      #     docker run --pull=always \
-      #       -v $PWD/$:/archive.zip \
-      #       grafana/plugin-validator-cli -analyzer=metadatavalid /archive.zip
+      - name: Check plugin.json
+        run: |
+          docker run --pull=always \
+            -v $PWD/$:/archive.zip \
+            grafana/plugin-validator-cli -analyzer=metadatavalid /archive.zip
 
       - name: Archive Build
         uses: actions/upload-artifact@v4
@@ -131,7 +131,7 @@ jobs:
         uses: grafana/plugin-actions/e2e-version@main
         with:
           version-resolver-type: plugin-grafana-dependency
-          grafana-dependency: '>=9.0.0'
+          grafana-dependency: '>=8.5.0'
 
   playwright-tests:
     needs: [resolve-versions, build]
