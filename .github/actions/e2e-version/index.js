@@ -17,11 +17,10 @@ const VersionResolverTypes = {
 
 async function run() {
   try {
-    const skipGrafanaDevImage = core.getBooleanInput(SkipGrafanaDevImageInput);
-    const grafanaDependency = core.getInput(GrafanaDependencyInput);
+    const skipGrafanaDevImage = core.getBooleanInput(SkipGrafanaDevImageInput) || false;
+    const grafanaDependency = core.getInput(GrafanaDependencyInput) || '=> 8.5.0';
     const versionResolverType = core.getInput(VersionResolverTypeInput) || VersionResolverTypes.PluginGrafanaDependency;
-    const limitInput = core.getInput(LimitInput);
-    const VERSIONS_LIMIT = skipGrafanaDevImage || limitInput === 0 ? limitInput : limitInput - 1;
+    const limit = core.getInput(LimitInput) || 0;
     const availableGrafanaVersions = await getGrafanaStableMinorVersions();
     if (availableGrafanaVersions.length === 0) {
       core.setFailed('Could not find any stable Grafana versions');
@@ -57,9 +56,9 @@ async function run() {
         }
     }
 
-    if (versionResolverType === VersionResolverTypes.PluginGrafanaDependency && versions.length !== 0) {
+    if (limit !== 0 && versionResolverType === VersionResolverTypes.PluginGrafanaDependency && versions.length !== 0) {
       // limit the number of versions to avoid starting too many jobs
-      versions = evenlyPickVersions(versions, VERSIONS_LIMIT);
+      versions = evenlyPickVersions(versions, skipGrafanaDevImage ? limit : limit - 1);
     }
 
     // official grafana-enterprise image
@@ -76,7 +75,7 @@ async function run() {
       }
     }
 
-    console.log('Resolved images: ', images);
+    console.log('Resolved images: ', images.map((image) => `${image.name}:${image.version}`).join(', '));
     core.setOutput(MatrixOutput, JSON.stringify(images));
     return images;
   } catch (error) {
@@ -96,7 +95,7 @@ function evenlyPickVersions(allItems, limit) {
     return allItems;
   }
 
-  const result = [allItems.shift(), allItems.pop()];
+  const result = limit > 1 ? [allItems.shift(), allItems.pop()] : [allItems.shift()];
   limit -= 2;
   const interval = allItems.length / limit;
 
