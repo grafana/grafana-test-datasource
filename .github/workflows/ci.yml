@@ -10,7 +10,7 @@ on:
       - master
       - main
   schedule:
-    - cron: '9 13 * * *' #once a day at 11 UTC
+    - cron: '12 13 * * *' #once a day at 11 UTC
 
 permissions: read-all
 
