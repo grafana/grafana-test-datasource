@@ -1,5 +1,5 @@
 import React, { ChangeEvent } from 'react';
-import { InlineField, Input, Stack } from '@grafana/ui';
+import * as ui from '@grafana/ui';
 import { QueryEditorProps } from '@grafana/data';
 import { DataSource } from '../datasource';
 import { MyDataSourceOptions, MyQuery } from '../types';
@@ -7,6 +7,8 @@ import { MyDataSourceOptions, MyQuery } from '../types';
 type Props = QueryEditorProps<DataSource, MyQuery, MyDataSourceOptions>;
 
 export function QueryEditor({ query, onChange, onRunQuery }: Props) {
+  const { Input, InlineField } = ui;
+  const Wrapper = ui.Stack ?? React.Fragment;
   const onQueryTextChange = (event: ChangeEvent<HTMLInputElement>) => {
     onChange({ ...query, queryText: event.target.value });
   };
@@ -20,7 +22,7 @@ export function QueryEditor({ query, onChange, onRunQuery }: Props) {
   const { queryText, constant } = query;
 
   return (
-    <Stack gap={0}>
+    <Wrapper>
       <InlineField label="Constant">
         <Input
           id="query-editor-constant"
@@ -40,6 +42,6 @@ export function QueryEditor({ query, onChange, onRunQuery }: Props) {
           placeholder="Enter a query"
         />
       </InlineField>
-    </Stack>
+    </Wrapper>
   );
 }
