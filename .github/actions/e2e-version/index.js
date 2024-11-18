@@ -20,7 +20,7 @@ async function run() {
     const skipGrafanaDevImage = core.getBooleanInput(SkipGrafanaDevImageInput) || false;
     const grafanaDependency = core.getInput(GrafanaDependencyInput);
     const versionResolverType = core.getInput(VersionResolverTypeInput) || VersionResolverTypes.PluginGrafanaDependency;
-    const limit = core.getInput(LimitInput);
+    const limit = Number(core.getNumberInput(LimitInput));
     const availableGrafanaVersions = await getGrafanaStableMinorVersions();
     if (availableGrafanaVersions.length === 0) {
       core.setFailed('Could not find any stable Grafana versions');
