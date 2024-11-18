@@ -58,6 +58,7 @@ async function run() {
 
     if (limit !== 0 && versionResolverType === VersionResolverTypes.PluginGrafanaDependency && versions.length !== 0) {
       // limit the number of versions to avoid starting too many jobs
+      console.log(`Limiting the number of versions to ${limit}`);
       versions = evenlyPickVersions(versions, skipGrafanaDevImage ? limit : limit - 1);
       console.log(`Evenly picked versions: ${versions.join(', ')}`);
     }
