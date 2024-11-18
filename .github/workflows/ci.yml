@@ -126,7 +126,7 @@ jobs:
         id: resolve-versions
         uses: ./.github/actions/e2e-version
         with:
-          limit: '3'
+          limit: 3
 
   playwright-tests:
     needs: [resolve-versions, build]
