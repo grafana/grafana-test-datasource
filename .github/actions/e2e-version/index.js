@@ -18,7 +18,7 @@ const VersionResolverTypes = {
 async function run() {
   try {
     const skipGrafanaDevImage = core.getBooleanInput(SkipGrafanaDevImageInput) || false;
-    const grafanaDependency = core.getInput(GrafanaDependencyInput) || '=> 8.5.0';
+    const grafanaDependency = core.getInput(GrafanaDependencyInput);
     const versionResolverType = core.getInput(VersionResolverTypeInput) || VersionResolverTypes.PluginGrafanaDependency;
     const limit = core.getInput(LimitInput) || 0;
     const availableGrafanaVersions = await getGrafanaStableMinorVersions();
