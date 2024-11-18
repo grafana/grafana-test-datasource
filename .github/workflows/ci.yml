@@ -125,8 +125,6 @@ jobs:
       - name: Resolve Grafana E2E versions
         id: resolve-versions
         uses: ./.github/actions/e2e-version
-        with:
-          limit: 'sdds'
 
   playwright-tests:
     needs: [resolve-versions, build]
