@@ -20,7 +20,7 @@ async function run() {
     const skipGrafanaDevImage = core.getBooleanInput(SkipGrafanaDevImageInput) || false;
     const grafanaDependency = core.getInput(GrafanaDependencyInput);
     const versionResolverType = core.getInput(VersionResolverTypeInput) || VersionResolverTypes.PluginGrafanaDependency;
-    const limit = Number(core.getInput(LimitInput));
+    const limit = parseInt(core.getInput(LimitInput));
     const availableGrafanaVersions = await getGrafanaStableMinorVersions();
     if (availableGrafanaVersions.length === 0) {
       core.setFailed('Could not find any stable Grafana versions');
@@ -96,7 +96,7 @@ function evenlyPickVersions(allItems, limit) {
   }
 
   const result = limit > 1 ? [allItems.shift(), allItems.pop()] : [allItems.shift()];
-  limit -= 2;
+  limit -= result.length;
   const interval = allItems.length / limit;
 
   for (let i = 0; i < limit; i++) {
