@@ -127,7 +127,6 @@ jobs:
         uses: ./.github/actions/e2e-version
         with:
           limit: 0
-          grafana-dependency: '>=8.5.0'
 
   playwright-tests:
     needs: [resolve-versions, build]
