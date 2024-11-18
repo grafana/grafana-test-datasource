@@ -20,7 +20,7 @@ async function run() {
     const skipGrafanaDevImage = core.getBooleanInput(SkipGrafanaDevImageInput) || false;
     const grafanaDependency = core.getInput(GrafanaDependencyInput);
     const versionResolverType = core.getInput(VersionResolverTypeInput) || VersionResolverTypes.PluginGrafanaDependency;
-    const limit = core.getInput(LimitInput) || 0;
+    const limit = core.getInput(LimitInput);
     const availableGrafanaVersions = await getGrafanaStableMinorVersions();
     if (availableGrafanaVersions.length === 0) {
       core.setFailed('Could not find any stable Grafana versions');
@@ -59,6 +59,7 @@ async function run() {
     if (limit !== 0 && versionResolverType === VersionResolverTypes.PluginGrafanaDependency && versions.length !== 0) {
       // limit the number of versions to avoid starting too many jobs
       versions = evenlyPickVersions(versions, skipGrafanaDevImage ? limit : limit - 1);
+      console.log(`Evenly picked versions: ${versions.join(', ')}`);
     }
 
     // official grafana-enterprise image
