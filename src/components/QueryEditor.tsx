@@ -3,6 +3,7 @@ import * as ui from '@grafana/ui';
 import { QueryEditorProps } from '@grafana/data';
 import { DataSource } from '../datasource';
 import { MyDataSourceOptions, MyQuery } from '../types';
+import { Stack } from '@grafana/ui';
 
 type Props = QueryEditorProps<DataSource, MyQuery, MyDataSourceOptions>;
 
@@ -23,6 +24,7 @@ export function QueryEditor({ query, onChange, onRunQuery }: Props) {
 
   return (
     <Wrapper>
+      <Stack gap={1}></Stack>
       <InlineField label="Constant">
         <Input
           id="query-editor-constant"
