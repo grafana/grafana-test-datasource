@@ -1,9 +1,9 @@
 import React, { ChangeEvent } from 'react';
 import * as ui from '@grafana/ui';
-import { FeatureState, QueryEditorProps } from '@grafana/data';
+import { QueryEditorProps } from '@grafana/data';
 import { DataSource } from '../datasource';
 import { MyDataSourceOptions, MyQuery } from '../types';
-import { FeatureBadge } from '@grafana/ui';
+import { Stack } from '@grafana/ui';
 
 type Props = QueryEditorProps<DataSource, MyQuery, MyDataSourceOptions>;
 
@@ -24,7 +24,7 @@ export function QueryEditor({ query, onChange, onRunQuery }: Props) {
 
   return (
     <Wrapper>
-      <FeatureBadge featureState={FeatureState.experimental}></FeatureBadge>
+      <Stack gap={1}></Stack>
       <InlineField label="Constant">
         <Input
           id="query-editor-constant"
