@@ -3,6 +3,8 @@ import { DataQuery } from '@grafana/schema';
 
 export interface MyQuery extends DataQuery {
   queryText?: string;
+  tls?: boolean;
+  project?: string;
   constant: number;
 }
 

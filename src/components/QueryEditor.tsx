@@ -1,12 +1,14 @@
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, useEffect } from 'react';
 import * as ui from '@grafana/ui';
-import { QueryEditorProps } from '@grafana/data';
+import { QueryEditorProps, SelectableValue, toOption } from '@grafana/data';
 import { DataSource } from '../datasource';
 import { MyDataSourceOptions, MyQuery } from '../types';
+import { InlineSwitch, Select } from '@grafana/ui';
+import { config } from '@grafana/runtime';
 
 type Props = QueryEditorProps<DataSource, MyQuery, MyDataSourceOptions>;
 
-export function QueryEditor({ query, onChange, onRunQuery }: Props) {
+export function QueryEditor({ query, onChange, onRunQuery, datasource }: Props) {
   const { Input, InlineField } = ui;
   const Wrapper = ui.Stack ?? React.Fragment;
   const onQueryTextChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -19,7 +21,22 @@ export function QueryEditor({ query, onChange, onRunQuery }: Props) {
     onRunQuery();
   };
 
-  const { queryText, constant } = query;
+  const onProjectChange = (option: SelectableValue<string>) => {
+    onChange({ ...query, project: option.value! });
+  };
+
+  const [projects, setProjects] = React.useState([]);
+
+  useEffect(() => {
+    datasource.getProjects().then((projects) => {
+      setProjects(projects);
+    });
+  }, [datasource]);
+
+  const { queryText, constant, project } = query;
+
+  // @ts-ignore
+  const tlsEnabled = config.featureToggles.tlsEnabled;
 
   return (
     <Wrapper>
@@ -33,6 +50,15 @@ export function QueryEditor({ query, onChange, onRunQuery }: Props) {
           step="0.1"
         />
       </InlineField>
+      <InlineField label="Projects">
+        <Select
+          options={projects.map(toOption)}
+          inputId="query-editor-project"
+          onChange={onProjectChange}
+          value={project}
+          width={8}
+        />
+      </InlineField>
       <InlineField label="Query Text" labelWidth={16} tooltip="Not used yet">
         <Input
           id="query-editor-query-text"
@@ -42,6 +68,16 @@ export function QueryEditor({ query, onChange, onRunQuery }: Props) {
           placeholder="Enter a query"
         />
       </InlineField>
+      {tlsEnabled && (
+        <InlineField label="TLS enabled">
+          <InlineSwitch
+            // the InlineSwitch label needs to match the label of the InlineField
+            label="TLS Enabled"
+            value={query.tls}
+            onChange={(e) => onChange({ ...query, tls: e.currentTarget.checked })}
+          />
+        </InlineField>
+      )}
     </Wrapper>
   );
 }
