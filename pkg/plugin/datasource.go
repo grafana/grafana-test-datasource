@@ -59,7 +59,10 @@ func (d *Datasource) QueryData(ctx context.Context, req *backend.QueryDataReques
 	return response, nil
 }
 
-type queryModel struct{}
+type queryModel struct {
+	Constant  float32 `json:"constant,omitempty"`
+	QueryText string  `json:"queryText,omitempty"`
+}
 
 func (d *Datasource) query(_ context.Context, pCtx backend.PluginContext, query backend.DataQuery) backend.DataResponse {
 	var response backend.DataResponse
@@ -76,12 +79,21 @@ func (d *Datasource) query(_ context.Context, pCtx backend.PluginContext, query 
 	// For an overview on data frames and how grafana handles them:
 	// https://grafana.com/developers/plugin-tools/introduction/data-frames
 	frame := data.NewFrame("response")
-
-	// add fields.
-	frame.Fields = append(frame.Fields,
-		data.NewField("time", nil, []time.Time{query.TimeRange.From, query.TimeRange.To}),
-		data.NewField("values", nil, []int64{10, 20}),
-	)
+	backend.Logger.Info("QueryText", "QueryText", qm.QueryText)
+	if qm.QueryText == "error" {
+		response.Error = fmt.Errorf("error occurred")
+		return response
+	} else if qm.QueryText == "annotationQuery" {
+		frame.Fields = append(frame.Fields,
+			data.NewField("time", nil, []time.Time{query.TimeRange.From, query.TimeRange.To}),
+			data.NewField("value", nil, []string{"A", "B"}),
+		)
+	} else {
+		frame.Fields = append(frame.Fields,
+			data.NewField("time", nil, []time.Time{query.TimeRange.From, query.TimeRange.To}),
+			data.NewField("values", nil, []int64{10, 20}),
+		)
+	}
 
 	// add the frames to the response.
 	response.Frames = append(response.Frames, frame)
