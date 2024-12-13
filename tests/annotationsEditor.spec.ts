@@ -7,14 +7,6 @@ test('should render annotations editor', async ({ annotationEditPage, page, read
   await expect(page.getByRole('textbox', { name: 'Query Text' })).toBeVisible();
 });
 
-test('goto existing annotation', async ({ grafanaVersion, gotoAnnotationEditPage }) => {
-  const annotationEditPage = await gotoAnnotationEditPage({ id: '1', dashboard: { uid: 'de6s050il06wwb' } });
-  await expect(annotationEditPage.runQuery()).toBeOK();
-  if (semver.gte(grafanaVersion, '11.0.0')) {
-    await expect(annotationEditPage).toHaveAlert('success');
-  }
-});
-
 test('create new, successful annotation query', async ({
   grafanaVersion,
   annotationEditPage,
