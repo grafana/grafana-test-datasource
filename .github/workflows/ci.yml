@@ -12,7 +12,9 @@ on:
   schedule:
     - cron: '12 13 * * *' #once a day at 11 UTC
 
-permissions: read-all
+permissions:
+  contents: read
+  id-token: write
 
 jobs:
   build:
