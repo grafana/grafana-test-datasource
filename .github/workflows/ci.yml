@@ -12,7 +12,9 @@ on:
   schedule:
     - cron: '12 13 * * *' #once a day at 11 UTC
 
-permissions: read-all
+permissions:
+  contents: read
+  id-token: write
 
 jobs:
   build:
@@ -197,6 +199,13 @@ jobs:
           name: ${{ matrix.GRAFANA_IMAGE.NAME }}-v${{ matrix.GRAFANA_IMAGE.VERSION }}-${{github.run_id}}-server-log
           path: grafana-server.log
           retention-days: 5
+
+      - name: Publish report to GCS
+        if: ${{ github.repository_owner == 'grafana' && (failure() && steps.run-tests.outcome == 'failure') }}
+        uses: grafana/plugin-actions/publish-report@main
+        with:
+          grafana-version: ${{ matrix.GRAFANA_IMAGE.VERSION }}
+          path: playwright-report
 
       # Uncomment this step to upload the Playwright report to Github artifacts.
       # If your repository is public, the report will be public on the Internet so beware not to expose sensitive information.

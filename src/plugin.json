@@ -5,6 +5,9 @@
   "id": "grafana-test-datasource",
   "metrics": true,
   "annotations": true,
+  "alerting": true,
+  "backend": true,
+  "executable": "gpx_test",
   "info": {
     "description": "",
     "author": {
