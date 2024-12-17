@@ -12,7 +12,7 @@ export class DataSource extends DataSourceWithBackend<MyQuery, MyDataSourceOptio
   constructor(instanceSettings: DataSourceInstanceSettings<MyDataSourceOptions>) {
     super(instanceSettings);
     this.baseUrl = instanceSettings.url!;
-    this.variables = new VariableSupport();
+    this.variables = new VariableSupport(this);
     this.annotations = annotationSupport;
   }
 
@@ -25,6 +25,40 @@ export class DataSource extends DataSourceWithBackend<MyQuery, MyDataSourceOptio
     });
     return super.query(request);
   }
+
+  // // @ts-ignore
+  // async query(options: DataQueryRequest<MyQuery>): Promise<DataQueryResponse> {
+  //   const { range } = options;
+  //   const from = range!.from.valueOf();
+  //   const to = range!.to.valueOf();
+
+  //   let data: DataFrame[] = [];
+  //   console.log('query', options);
+  //   if (options.targets.length && options.targets[0].queryText === 'variableQuery') {
+  //     data = [
+  //       createDataFrame({
+  //         refId: 'A',
+  //         fields: [
+  //           { name: 'Time', values: [from, to], type: FieldType.time },
+  //           { name: 'Test', values: [1, 2], type: FieldType.number },
+  //           { name: 'Value', values: ['A', 'B'], type: FieldType.string },
+  //         ],
+  //       }),
+  //     ];
+  //   } else {
+  //     data = options.targets.map((target) => {
+  //       return createDataFrame({
+  //         refId: target.refId,
+  //         fields: [
+  //           { name: 'Time', values: [from, to], type: FieldType.time },
+  //           { name: 'Value', values: [target.constant, target.constant], type: FieldType.number },
+  //         ],
+  //       });
+  //     });
+  //   }
+
+  //   return { data };
+  // }
 
   getDefaultQuery(_: CoreApp): Partial<MyQuery> {
     return DEFAULT_QUERY;

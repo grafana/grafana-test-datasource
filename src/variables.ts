@@ -1,10 +1,49 @@
-import { DataSourceVariableSupport, VariableSupportType } from '@grafana/data';
-import { DataSource } from 'datasource';
+// import { VariableSupportBase, VariableSupportType } from '@grafana/data';
+// import { DEFAULT_QUERY, MyQuery } from './types';
+// import { DataSource } from './datasource';
+
+// export class VariableSupport extends VariableSupportBase<DataSource> {
+//   constructor(private _: DataSource) {
+//     super();
+//   }
+
+//   // editor = QueryEditor;
+//   getType(): VariableSupportType {
+//     return VariableSupportType.Datasource;
+//   }
+
+//   getDefaultQuery(): Partial<MyQuery> {
+//     return DEFAULT_QUERY;
+//   }
+// }
+
+// uncomment the code above to test DataSourceVariableSupport
+
+import { CustomVariableSupport, DataQueryRequest, VariableSupportType } from '@grafana/data';
+import { QueryEditor } from './components/QueryEditor';
+import { DataSource } from './datasource';
 import { DEFAULT_QUERY, MyQuery } from 'types';
 
-export class VariableSupport extends DataSourceVariableSupport<DataSource> {
+export class VariableSupport extends CustomVariableSupport<DataSource> {
+  constructor(private ds: DataSource) {
+    super();
+  }
+
+  editor = QueryEditor;
+
+  query(request: DataQueryRequest<any>) {
+    request.targets = request.targets.map((target) => {
+      return {
+        refId: target.refId ?? 'variableQuery',
+        ...target,
+      };
+    });
+
+    return this.ds.query(request);
+  }
+
   getType(): VariableSupportType {
-    return VariableSupportType.Datasource;
+    return VariableSupportType.Custom;
   }
 
   getDefaultQuery(): Partial<MyQuery> {
