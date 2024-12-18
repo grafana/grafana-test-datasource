@@ -25,8 +25,9 @@ import { DataSource } from './datasource';
 import { DEFAULT_QUERY, MyQuery } from 'types';
 
 export class VariableSupport extends CustomVariableSupport<DataSource> {
-  constructor(private ds: DataSource) {
+  constructor(private datasource: DataSource) {
     super();
+    this.query = this.query.bind(this);
   }
 
   editor = QueryEditor;
@@ -39,7 +40,7 @@ export class VariableSupport extends CustomVariableSupport<DataSource> {
       };
     });
 
-    return this.ds.query(request);
+    return this.datasource.query(request);
   }
 
   getType(): VariableSupportType {

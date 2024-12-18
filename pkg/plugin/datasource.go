@@ -89,6 +89,11 @@ func (d *Datasource) query(_ context.Context, pCtx backend.PluginContext, query 
 	if qm.QueryText == "error" {
 		response.Error = fmt.Errorf("error occurred")
 		return response
+	} else if qm.QueryText == "variableQuery" {
+		frame.Fields = append(frame.Fields,
+			data.NewField("time", nil, []time.Time{query.TimeRange.From, query.TimeRange.To}),
+			data.NewField("value", nil, []string{"A", "B"}),
+		)
 	} else if qm.QueryText == "annotationQuery" {
 		frame.Fields = append(frame.Fields,
 			data.NewField("time", nil, []time.Time{query.TimeRange.From, query.TimeRange.To}),
