@@ -1,3 +1,4 @@
+import * as semver from 'semver';
 import { test, expect } from '@grafana/plugin-e2e';
 
 test('should render config editor', async ({ createDataSourceConfigPage, readProvisionedDataSource, page }) => {
@@ -21,6 +22,7 @@ test('should be successful if config is valid', async ({
 test('should return error if API key is missing', async ({
   createDataSourceConfigPage,
   readProvisionedDataSource,
+  grafanaVersion,
   page,
 }) => {
   const ds = await readProvisionedDataSource({ fileName: 'datasources.yml' });
@@ -28,4 +30,7 @@ test('should return error if API key is missing', async ({
   await page.getByLabel('Path').fill('');
   await expect(datasourceConfigPage.saveAndTest()).not.toBeOK();
   await expect(datasourceConfigPage).toHaveAlert('error', { hasText: 'API key is missing' });
+  if (semver.gte(grafanaVersion, '11.0.0')) {
+    await expect(datasourceConfigPage).not.toHaveAlert('error');
+  }
 });
