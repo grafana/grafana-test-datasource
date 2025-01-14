@@ -207,6 +207,21 @@ jobs:
           grafana-version: ${{ matrix.GRAFANA_IMAGE.VERSION }}
           path: playwright-report
 
+      - name: Set a timestamp
+        id: timestampid
+        # this will store current time with UTC in outputs.timestamp (eg of value: 20231028_233147Z)
+        run: echo "timestamp=$(date --utc +%Y%m%d_%H%M%SZ)" >> "$GITHUB_OUTPUT"
+
+      - name: Push the new files to github pages
+        # This will create a separate branch called gh-pages where it will store only reports. And from where it will push all future changes
+        # to github pages. Having a separate branch will keep the reports and changes commits separate to your main/master
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: playwright-report # from what folder to take files
+          destination_dir: ${{ steps.timestampid.outputs.timestamp }}-${{ github.event.number }}-${{ matrix.GRAFANA_IMAGE.VERSION }} # a sub-directory where to publish to avoid overwriting other reports
+
+
       # Uncomment this step to upload the Playwright report to Github artifacts.
       # If your repository is public, the report will be public on the Internet so beware not to expose sensitive information.
       # - name: Upload artifacts
