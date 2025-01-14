@@ -13,8 +13,7 @@ on:
     - cron: '12 13 * * *' #once a day at 11 UTC
 
 permissions:
-  contents: read
-  id-token: write
+  contents: write
 
 jobs:
   build:
