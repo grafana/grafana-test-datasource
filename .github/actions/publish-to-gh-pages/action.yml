@@ -42,7 +42,7 @@ runs:
         ref: gh-pages
 
     - name: Delete old reports
-      run: ./cleanup-folders.sh --retention-days ${{ inputs.retention_days }} --folder-name ${{ inputs.source_dir }}
+      run: ${{ github.action_path }}/cleanup-folders.sh --retention-days ${{ inputs.retention_days }} --folder-name ${{ inputs.source_dir }}
 
     - name: Commit all changed files back to the repository
       uses: stefanzweifel/git-auto-commit-action@v5
