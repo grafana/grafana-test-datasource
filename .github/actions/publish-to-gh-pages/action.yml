@@ -1,0 +1,51 @@
+name: 'Publish to GH pages'
+description: ''
+author: 'frontend@grafana'
+
+inputs:
+  github-token:
+    description: 'Token for the repository. Can be passed in using `{{ secrets.GITHUB_TOKEN }}`.'
+    required: false
+    default: ${{ github.token }}
+  source_dir:
+    description: 'Directory to publish.'
+    required: false
+    default: 'playwright-report'
+  destination_dir: 
+    description: 'Directory to publish to.'
+    required: true
+  retention_days:
+    description: 'Number of days to retain the reports.'
+    required: false
+    default: 30
+
+runs:
+  using: "composite"
+  steps:
+    - name: Set a timestamp
+      id: timestampid
+      run: echo "timestamp=$(date --utc +%Y%m%d)" >> "$GITHUB_OUTPUT"
+
+    - name: Push the new files to github pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ${{ inputs.source_dir }}
+        destination_dir: ${{ steps.timestampid.outputs.timestamp }}/${{ inputs.destination_dir }}
+
+    - name: Write URL in summary
+      run: echo "### Browse the Playwright report for Grafana-v${{ matrix.GRAFANA_IMAGE.VERSION }} - https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/${{ steps.timestampid.outputs.timestamp }}/${{ github.event.number }}/${{ matrix.GRAFANA_IMAGE.VERSION }}/" >> $GITHUB_STEP_SUMMARY
+
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        ref: gh-pages
+
+    - name: Delete old reports
+      run: ./cleanup-folders.sh --retention-days ${{ inputs.retention_days }} --folder-name ${{ inputs.source_dir }}
+
+    - name: Commit all changed files back to the repository
+      uses: stefanzweifel/git-auto-commit-action@v5
+      with:
+        branch: gh-pages
+        commit_message: Delete folders older than n days

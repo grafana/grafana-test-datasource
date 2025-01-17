@@ -200,33 +200,40 @@ jobs:
           path: grafana-server.log
           retention-days: 5
 
-      - name: Set a timestamp
-        id: timestampid
-        run: echo "timestamp=$(date --utc +%Y%m%d_%H%M%SZ)" >> "$GITHUB_OUTPUT"
-
-      - name: Push the new files to github pages
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Publish report
+        uses: ./.github/actions/publish-to-gh-pages
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: playwright-report
-          destination_dir: ${{ steps.timestampid.outputs.timestamp }}/${{ github.event.number }}/${{ matrix.GRAFANA_IMAGE.VERSION }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          destination_dir: ${{ github.event.number }}/${{ matrix.GRAFANA_IMAGE.VERSION }}
+          source_dir: playwright-report
 
-      - name: Write URL in summary
-        run: echo "### Browse the Playwright report for Grafana-v${{ matrix.GRAFANA_IMAGE.VERSION }} - https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/${{ steps.timestampid.outputs.timestamp }}/${{ github.event.number }}/${{ matrix.GRAFANA_IMAGE.VERSION }}/" >> $GITHUB_STEP_SUMMARY
+      # - name: Set a timestamp
+      #   id: timestampid
+      #   run: echo "timestamp=$(date --utc +%Y%m%d)" >> "$GITHUB_OUTPUT"
 
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          ref: gh-pages
+      # - name: Push the new files to github pages
+      #   uses: peaceiris/actions-gh-pages@v3
+      #   with:
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      #     publish_dir: playwright-report
+      #     destination_dir: ${{ steps.timestampid.outputs.timestamp }}/${{ github.event.number }}/${{ matrix.GRAFANA_IMAGE.VERSION }}
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      # - name: Write URL in summary
+      #   run: echo "### Browse the Playwright report for Grafana-v${{ matrix.GRAFANA_IMAGE.VERSION }} - https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/${{ steps.timestampid.outputs.timestamp }}/${{ github.event.number }}/${{ matrix.GRAFANA_IMAGE.VERSION }}/" >> $GITHUB_STEP_SUMMARY
 
-      - name: Delete old reports
-        run: python .config/rm_old_folders.py --retention-days 30 --folder-name .
+      # - name: Checkout code
+      #   uses: actions/checkout@v4
+      #   with:
+      #     ref: gh-pages
 
-      - name: Commit all changed files back to the repository
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          branch: gh-pages
-          commit_message: Delete folders older than n days
+      # - name: Set up Python
+      #   uses: actions/setup-python@v4
+
+      # - name: Delete old reports
+      #   run: python .config/rm_old_folders.py --retention-days 30 --folder-name .
+
+      # - name: Commit all changed files back to the repository
+      #   uses: stefanzweifel/git-auto-commit-action@v5
+      #   with:
+      #     branch: gh-pages
+      #     commit_message: Delete folders older than n days
