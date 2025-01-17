@@ -23,17 +23,19 @@ runs:
   using: "composite"
   steps:
     - name: Set a timestamp
+      shell: bash
       id: timestampid
       run: echo "timestamp=$(date --utc +%Y%m%d)" >> "$GITHUB_OUTPUT"
 
     - name: Push the new files to github pages
       uses: peaceiris/actions-gh-pages@v3
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+        github_token: ${{ inputs.github-token }}
         publish_dir: ${{ inputs.source_dir }}
         destination_dir: ${{ steps.timestampid.outputs.timestamp }}/${{ inputs.destination_dir }}
 
     - name: Write URL in summary
+      shell: bash
       run: echo "### Browse the Playwright report for Grafana-v${{ matrix.GRAFANA_IMAGE.VERSION }} - https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/${{ steps.timestampid.outputs.timestamp }}/${{ github.event.number }}/${{ matrix.GRAFANA_IMAGE.VERSION }}/" >> $GITHUB_STEP_SUMMARY
 
     - name: Checkout code
@@ -42,6 +44,7 @@ runs:
         ref: gh-pages
 
     - name: Delete old reports
+      shell: bash
       run: ${{ github.action_path }}/cleanup-folders.sh --retention-days ${{ inputs.retention_days }} --folder-name ${{ inputs.source_dir }}
 
     - name: Commit all changed files back to the repository
