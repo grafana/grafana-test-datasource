@@ -1,7 +1,0 @@
-{
-  "extends": "./.config/.eslintrc",
-  "plugins": ["@sunker/is-compatible"],
-  "rules": {
-    "@sunker/is-compatible/import-exists": ["warn"]
-  }
-}
