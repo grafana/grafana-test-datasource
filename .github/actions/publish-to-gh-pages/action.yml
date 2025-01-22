@@ -48,34 +48,39 @@ runs:
     - name: Build Markdown Table
       shell: bash
       run: |
-        # Change to the target directory
         cd ${{ inputs.source-dir }} || { echo "Failed to enter directory ${{ inputs.source-dir }}"; exit 1; }
 
         # Initialize the table
-        table="### Playwright test results \n| Test Run | Result | Report |\n|:------ |:------: |:------: |"
+        table="### Playwright test results \n| Test Run | Image Name | Version | Result | Report |\n|:------ |:------ |:------: |:------: |:------: |"
 
         # Iterate through subdirectories
         for dir in */; do
           if [[ -d "$dir" ]]; then
             dir_name=$(basename "$dir")
-            report_link_var="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/${{ steps.timestampid.outputs.timestamp }}/${{ github.event.number }}/$dir_name/"
+            summary_file="$dir/summary.txt"
 
-            # Read the result from result.txt
-            if [[ -f "$dir/result.txt" ]]; then
-              result=$(cat "$dir/result.txt")
-              if [[ "$result" == "SUCCESS" ]]; then
+            if [[ -f "$summary_file" ]]; then
+              # Read data from summary.txt
+              grafana_image=$(grep 'GRAFANA_IMAGE=' "$summary_file" | cut -d'=' -f2)
+              grafana_version=$(grep 'GRAFANA_VERSION=' "$summary_file" | cut -d'=' -f2)
+              test_output=$(grep 'OUTPUT=' "$summary_file" | cut -d'=' -f2)
+              report_link=$(grep 'REPORT_LINK=' "$summary_file" | cut -d'=' -f2)
+
+              # Map result to emoji
+              if [[ "$test_output" == "success" ]]; then
                 result_emoji="✅"
               else
                 result_emoji="❌"
               fi
-            else
-              result_emoji="❓" # Use this if result.txt is missing
-              result="UNKNOWN"
-            fi
 
-            # Append a row to the table
-            table="${table}
-        | ${dir_name} | ${result_emoji} | [🔗](${report_link_var}) |"
+              # Append a row to the table
+              table="${table}
+        | ${dir_name} | ${grafana_image} | ${grafana_version} | ${result_emoji} | [🔗](${report_link}) |"
+            else
+              # Handle missing summary.txt
+              table="${table}
+        | ${dir_name} | UNKNOWN | UNKNOWN | ❓ | No report available |"
+            fi
           fi
         done
 

@@ -1,0 +1,56 @@
+name: 'Publish to GH pages'
+description: ''
+author: 'frontend@grafana'
+
+inputs:
+  grafana-image:
+    description: 'Grafana image used in the test.'
+    default: ${{ matrix.GRAFANA_IMAGE.NAME }}
+    required: false
+  grafana-version:
+    description: 'Grafana version used in the test.'
+    default: ${{ matrix.GRAFANA_IMAGE.VERSION }}
+    required: false
+  test-outcome:
+    description: 'Outcome of the test step'
+    default: ${{ steps.run-tests.outcome }}
+    required: false
+  github-token:
+    description: 'Token for the repository. Can be passed in using `{{ secrets.GITHUB_TOKEN }}`.'
+    required: false
+    default: ${{ github.token }}
+  upload-successful:
+    description: 'Whether to upload the report if the test was successful.'
+    required: false
+    default: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: rename report
+        run: |
+          mv playwright-report ${{ matrix.GRAFANA_IMAGE.NAME }}-v${{ matrix.GRAFANA_IMAGE.VERSION }}
+          mkdir -p playwright-report
+          mv ${{ matrix.GRAFANA_IMAGE.NAME }}-v${{ matrix.GRAFANA_IMAGE.VERSION }} playwright-report/
+
+    - name: remove successful report
+      if: ${{ !inputs.upload-successful && inputs.test-outcome == 'success' }}
+      run: |
+        rm -rf playwright-report/${{ matrix.GRAFANA_IMAGE.NAME }}-v${{ matrix.GRAFANA_IMAGE.VERSION }}
+
+    - name: Write test result to file
+      run: |
+        REPORT_LINK="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/${{ steps.timestampid.outputs.timestamp }}/${{ github.event.number }}/${{ matrix.GRAFANA_IMAGE.NAME }}-v${{ matrix.GRAFANA_IMAGE.VERSION }}/"
+        SUMMARY="GRAFANA_IMAGE=${{ matrix.GRAFANA_IMAGE.NAME }}
+        GRAFANA_VERSION=${{ matrix.GRAFANA_IMAGE.VERSION }}
+        OUTPUT=${{ steps.run-tests.outcome }}
+        REPORT_LINK=${REPORT_LINK}"
+
+        echo "${SUMMARY}" > ./playwright-report/${{ matrix.GRAFANA_IMAGE.NAME }}-v${{ matrix.GRAFANA_IMAGE.VERSION }}/summary.txt
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: playwright-report-${{ matrix.GRAFANA_IMAGE.NAME }}-v${{ matrix.GRAFANA_IMAGE.VERSION }}
+        path: playwright-report
+        retention-days: 1
