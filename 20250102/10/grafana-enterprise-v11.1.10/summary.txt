@@ -1,3 +1,0 @@
-GRAFANA_IMAGE=grafana-enterprise
-GRAFANA_VERSION=11.1.10
-OUTPUT=failure
