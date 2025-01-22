@@ -34,10 +34,10 @@ runs:
         mv ${{ inputs.grafana-image }}-v${{ inputs.grafana-version }} playwright-report/
 
     - name: remove successful report
-      # if: ${{ !inputs.upload-successful && inputs.test-outcome == 'success' }}
+      if: ${{ inputs.upload-successful == 'false' && inputs.test-outcome == 'success' }}
       shell: bash
       run: |
-        rm -rf playwright-report/${{ inputs.grafana-image }}-v${{ inputs.grafana-version }}
+        rm -rf playwright-report/${{ inputs.grafana-image }}-v${{ inputs.grafana-version }}/*
 
     - name: Write test result to file
       shell: bash
