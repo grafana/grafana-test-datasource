@@ -76,6 +76,8 @@ runs:
               # Check for index.html
               if [[ -f "$dir/index.html" ]]; then
                 link_cell="[🔗](${report_link})"
+              else
+                link_cell=""
               fi
 
               # Append a row to the table
