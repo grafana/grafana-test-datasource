@@ -1,4 +1,0 @@
-GRAFANA_IMAGE=grafana-dev
-GRAFANA_VERSION=11.5.0-218747
-OUTPUT=
-REPORT_LINK=https://grafana.github.io/grafana-test-datasource//10/grafana-dev-v11.5.0-218747/
