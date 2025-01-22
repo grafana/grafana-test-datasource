@@ -7,13 +7,9 @@ inputs:
     description: 'Token for the repository. Can be passed in using `{{ secrets.GITHUB_TOKEN }}`.'
     required: false
     default: ${{ github.token }}
-  source-dir:
-    description: 'Directory to publish.'
-    required: false
-    default: 'playwright-report'
   destination-dir: 
     description: 'Directory to publish to.'
-    required: true
+    default: ${{ github.event.number }}/
   retention-days:
     description: 'Number of days to retain the reports.'
     required: false
@@ -56,13 +52,13 @@ runs:
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ inputs.github-token }}
-        publish_dir: ${{ inputs.source-dir }}
+        publish_dir: all-reports
         destination_dir: ${{ steps.timestampid.outputs.timestamp }}/${{ inputs.destination-dir }}
     
     - name: Build Markdown Table
       shell: bash
       run: |
-        cd ${{ inputs.source-dir }} || { echo "Failed to enter directory ${{ inputs.source-dir }}"; exit 1; }
+        cd all-reports || { echo "Failed to enter directory all-reports"; exit 1; }
 
         # Initialize the table
         table="### Playwright test results \n| Image Name | Version | Result | Report |\n|:---------- |:------- |:------: |:------: |"

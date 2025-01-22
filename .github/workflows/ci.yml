@@ -218,6 +218,4 @@ jobs:
         uses: ./.github/actions/publish-to-gh-pages
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          destination-dir: ${{ github.event.number }}/
-          source-dir: all-reports
           retention-days: 5
