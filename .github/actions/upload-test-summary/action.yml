@@ -29,28 +29,28 @@ runs:
     - name: rename report
       shell: bash
       run: |
-        mv playwright-report ${{ matrix.GRAFANA_IMAGE.NAME }}-v${{ matrix.GRAFANA_IMAGE.VERSION }}
+        mv playwright-report ${{ inputs.grafana-image }}-v${{ inputs.grafana-version }}
         mkdir -p playwright-report
-        mv ${{ matrix.GRAFANA_IMAGE.NAME }}-v${{ matrix.GRAFANA_IMAGE.VERSION }} playwright-report/
+        mv ${{ inputs.grafana-image }}-v${{ inputs.grafana-version }} playwright-report/
 
     - name: remove successful report
       if: ${{ !inputs.upload-successful && inputs.test-outcome == 'success' }}
       shell: bash
       run: |
-        rm -rf playwright-report/${{ matrix.GRAFANA_IMAGE.NAME }}-v${{ matrix.GRAFANA_IMAGE.VERSION }}
+        rm -rf playwright-report/${{ inputs.grafana-image }}-v${{ inputs.grafana-version }}
 
     - name: Write test result to file
       shell: bash
       run: |
-        SUMMARY="GRAFANA_IMAGE=${{ matrix.GRAFANA_IMAGE.NAME }}
-        GRAFANA_VERSION=${{ matrix.GRAFANA_IMAGE.VERSION }}
+        SUMMARY="GRAFANA_IMAGE=${{ inputs.grafana-image }}
+        GRAFANA_VERSION=${{ inputs.grafana-version }}
         OUTPUT=${{ inputs.test-outcome }}"
 
-        echo "${SUMMARY}" > ./playwright-report/${{ matrix.GRAFANA_IMAGE.NAME }}-v${{ matrix.GRAFANA_IMAGE.VERSION }}/summary.txt
+        echo "${SUMMARY}" > ./playwright-report/${{ inputs.grafana-image }}-v${{ inputs.grafana-version }}/summary.txt
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: playwright-report-${{ matrix.GRAFANA_IMAGE.NAME }}-v${{ matrix.GRAFANA_IMAGE.VERSION }}
+        name: playwright-report-${{ inputs.grafana-image }}-v${{ inputs.grafana-version }}
         path: playwright-report
         retention-days: 1
