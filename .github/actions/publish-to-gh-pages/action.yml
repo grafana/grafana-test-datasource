@@ -73,9 +73,16 @@ runs:
                 result_emoji="❌"
               fi
 
+              # Check for index.html
+              if [[ -f "$dir/index.html" ]]; then
+                link_cell="[🔗](${report_link})"
+              else
+                link_cell="No report available"
+              fi
+
               # Append a row to the table
               table="${table}
-        | ${grafana_image} | ${grafana_version} | ${result_emoji} | [🔗](${report_link}) |"
+        | ${grafana_image} | ${grafana_version} | ${result_emoji} | ${link_cell} |"
             else
               # Handle missing summary.txt
               table="${table}
