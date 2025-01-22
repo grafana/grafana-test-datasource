@@ -189,6 +189,7 @@ jobs:
         uses: ./.github/actions/upload-test-summary
         if: ${{ always() }}
         with:
+          upload-successful: false
           test-outcome: ${{ steps.run-tests.outcome }}
 
       - name: Docker logs

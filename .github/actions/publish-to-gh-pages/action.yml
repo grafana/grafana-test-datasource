@@ -51,7 +51,7 @@ runs:
         cd ${{ inputs.source-dir }} || { echo "Failed to enter directory ${{ inputs.source-dir }}"; exit 1; }
 
         # Initialize the table
-        table="### Playwright test results \n| Test Run | Image Name | Version | Result | Report |\n|:------ |:------ |:------: |:------: |:------: |"
+        table="### Playwright test results \n| Image Name | Version | Result | Report |\n|:------ |:------ |:------: |:------: |:------: |"
 
         # Iterate through subdirectories
         for dir in */; do
@@ -75,7 +75,7 @@ runs:
 
               # Append a row to the table
               table="${table}
-        | ${dir_name} | ${grafana_image} | ${grafana_version} | ${result_emoji} | [🔗](${report_link}) |"
+        | ${grafana_image} | ${grafana_version} | ${result_emoji} | [🔗](${report_link}) |"
             else
               # Handle missing summary.txt
               table="${table}
