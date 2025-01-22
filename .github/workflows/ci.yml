@@ -15,6 +15,7 @@ on:
 permissions:
   contents: write
   id-token: write
+  pull-requests: write
 
 jobs:
   build:
@@ -200,40 +201,55 @@ jobs:
           path: grafana-server.log
           retention-days: 5
 
+      # - name: Publish report
+      #   uses: ./.github/actions/publish-to-gh-pages
+      #   with:
+      #     github-token: ${{ secrets.GITHUB_TOKEN }}
+      #     destination_dir: ${{ github.event.number }}/${{ matrix.GRAFANA_IMAGE.VERSION }}
+      #     source_dir: playwright-report
+
+      - name: rename report
+        if: ${{ always() }}
+        run: |
+          mv playwright-report ${{ matrix.GRAFANA_IMAGE.NAME }}-v${{ matrix.GRAFANA_IMAGE.VERSION }}
+          mkdir -p playwright-report
+          mv ${{ matrix.GRAFANA_IMAGE.NAME }}-v${{ matrix.GRAFANA_IMAGE.VERSION }} playwright-report/
+
+      - name: Write test result to file
+        if: always()
+        run: |
+          if [[ "${{ steps.run-tests.outcome }}" == "success" ]]; then
+            RESULT="SUCCESS"
+          else
+            RESULT="FAILURE"
+          fi
+          echo "${RESULT}" > ./playwright-report/${{ matrix.GRAFANA_IMAGE.NAME }}-v${{ matrix.GRAFANA_IMAGE.VERSION }}/result.txt
+
+      - name: Upload artifacts
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-${{ matrix.GRAFANA_IMAGE.NAME }}-v${{ matrix.GRAFANA_IMAGE.VERSION }}
+          path: playwright-report
+          retention-days: 1
+
+  publish-report:
+    if: ${{ always() }}
+    needs: [resolve-versions, playwright-tests]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download report artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: all-reports
+          pattern: playwright-report-*
+          merge-multiple: true
+
       - name: Publish report
         uses: ./.github/actions/publish-to-gh-pages
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          destination_dir: ${{ github.event.number }}/${{ matrix.GRAFANA_IMAGE.VERSION }}
-          source_dir: playwright-report
-
-      # - name: Set a timestamp
-      #   id: timestampid
-      #   run: echo "timestamp=$(date --utc +%Y%m%d)" >> "$GITHUB_OUTPUT"
-
-      # - name: Push the new files to github pages
-      #   uses: peaceiris/actions-gh-pages@v3
-      #   with:
-      #     github_token: ${{ secrets.GITHUB_TOKEN }}
-      #     publish_dir: playwright-report
-      #     destination_dir: ${{ steps.timestampid.outputs.timestamp }}/${{ github.event.number }}/${{ matrix.GRAFANA_IMAGE.VERSION }}
-
-      # - name: Write URL in summary
-      #   run: echo "### Browse the Playwright report for Grafana-v${{ matrix.GRAFANA_IMAGE.VERSION }} - https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/${{ steps.timestampid.outputs.timestamp }}/${{ github.event.number }}/${{ matrix.GRAFANA_IMAGE.VERSION }}/" >> $GITHUB_STEP_SUMMARY
-
-      # - name: Checkout code
-      #   uses: actions/checkout@v4
-      #   with:
-      #     ref: gh-pages
-
-      # - name: Set up Python
-      #   uses: actions/setup-python@v4
-
-      # - name: Delete old reports
-      #   run: python .config/rm_old_folders.py --retention-days 30 --folder-name .
-
-      # - name: Commit all changed files back to the repository
-      #   uses: stefanzweifel/git-auto-commit-action@v5
-      #   with:
-      #     branch: gh-pages
-      #     commit_message: Delete folders older than n days
+          destination-dir: ${{ github.event.number }}/
+          source-dir: all-reports

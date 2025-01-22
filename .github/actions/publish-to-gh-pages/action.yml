@@ -7,42 +7,107 @@ inputs:
     description: 'Token for the repository. Can be passed in using `{{ secrets.GITHUB_TOKEN }}`.'
     required: false
     default: ${{ github.token }}
-  source_dir:
+  source-dir:
     description: 'Directory to publish.'
     required: false
     default: 'playwright-report'
-  destination_dir: 
+  destination-dir: 
     description: 'Directory to publish to.'
     required: true
-  retention_days:
+  retention-days:
     description: 'Number of days to retain the reports.'
     required: false
     default: 30
+  multi-sites:
+    description: 'Whether to publish multiple sites.'
+    required: false
+    default: true
 
 runs:
   using: "composite"
   steps:
+    - name: Delete a comment
+      uses: thollander/actions-comment-pull-request@v3
+      with:
+        comment-tag: test-results
+        mode: delete
+
     - name: Set a timestamp
+      shell: bash
       id: timestampid
       run: echo "timestamp=$(date --utc +%Y%m%d)" >> "$GITHUB_OUTPUT"
 
     - name: Push the new files to github pages
       uses: peaceiris/actions-gh-pages@v3
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ${{ inputs.source_dir }}
-        destination_dir: ${{ steps.timestampid.outputs.timestamp }}/${{ inputs.destination_dir }}
+        github_token: ${{ inputs.github-token }}
+        publish_dir: ${{ inputs.source-dir }}
+        destination_dir: ${{ steps.timestampid.outputs.timestamp }}/${{ inputs.destination-dir }}
+      
+    
+    - name: Build Markdown Table
+      shell: bash
+      run: |
+        # Change to the target directory
+        cd ${{ inputs.source-dir }} || { echo "Failed to enter directory ${{ inputs.source-dir }}"; exit 1; }
 
+        # Initialize the table
+        table="### Playwright test results \n| Test Run | Result | Report |\n|:------ |:------: |:------: |"
+
+        # Iterate through subdirectories
+        for dir in */; do
+          if [[ -d "$dir" ]]; then
+            dir_name=$(basename "$dir")
+            report_link_var="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/${{ steps.timestampid.outputs.timestamp }}/${{ github.event.number }}/$dir_name/"
+
+            # Read the result from result.txt
+            if [[ -f "$dir/result.txt" ]]; then
+              result=$(cat "$dir/result.txt")
+              if [[ "$result" == "SUCCESS" ]]; then
+                result_emoji="✅"
+              else
+                result_emoji="❌"
+              fi
+            else
+              result_emoji="❓" # Use this if result.txt is missing
+              result="UNKNOWN"
+            fi
+
+            # Append a row to the table
+            table="${table}
+        | ${dir_name} | ${result_emoji} | [🔗](${report_link_var}) |"
+          fi
+        done
+
+        # Debug: Print the final table
+        echo "Generated Markdown Table:"
+        echo -e "$table"
+
+        # Export the table as an environment variable
+        echo "MARKDOWN_TABLE<<EOF" >> "$GITHUB_ENV"
+        echo -e "$table" >> "$GITHUB_ENV"
+        echo "EOF" >> "$GITHUB_ENV"
+
+    - name: Comment PR with Execution Details
+      uses: thollander/actions-comment-pull-request@v3
+      with:
+        create-if-not-exists: true
+        comment-tag: test-results
+        message: ${{ env.MARKDOWN_TABLE }}
+  
     - name: Write URL in summary
-      run: echo "### Browse the Playwright report for Grafana-v${{ matrix.GRAFANA_IMAGE.VERSION }} - https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/${{ steps.timestampid.outputs.timestamp }}/${{ github.event.number }}/${{ matrix.GRAFANA_IMAGE.VERSION }}/" >> $GITHUB_STEP_SUMMARY
-
+      shell: bash
+      if: ${{ inputs.multi-sites == 'true' }}
+      run: echo "$MARKDOWN_TABLE" >> "$GITHUB_STEP_SUMMARY"
+      
     - name: Checkout code
       uses: actions/checkout@v4
       with:
         ref: gh-pages
 
     - name: Delete old reports
-      run: ./cleanup-folders.sh --retention-days ${{ inputs.retention_days }} --folder-name ${{ inputs.source_dir }}
+      shell: bash
+      run: ${{ github.action_path }}/cleanup-folders.sh --retention-days ${{ inputs.retention-days }} --folder-name ${{ inputs.source-dir }}
 
     - name: Commit all changed files back to the repository
       uses: stefanzweifel/git-auto-commit-action@v5
