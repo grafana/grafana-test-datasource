@@ -188,7 +188,7 @@ jobs:
         run: npm run e2e
 
       - name: Upload e2e test summary
-        uses: ./.github/actions/upload-test-summary
+        uses: ./.github/actions/upload-test-artifacts
         if: ${{ always() }}
         with:
           test-outcome: ${{ steps.run-tests.outcome }}

@@ -37,7 +37,7 @@ runs:
         pattern: ${{ inputs.artifact-pattern }}
         merge-multiple: true
 
-    - name: Delete a comment
+    - name: Delete any existing comment
       uses: thollander/actions-comment-pull-request@v3
       with:
         comment-tag: test-results
