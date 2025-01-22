@@ -19,7 +19,7 @@ inputs:
     required: false
     default: true
   artifact-pattern:
-    description: 'Pattern to match the artifacts.'
+    description: 'Pattern to match the artifacts. Default is "playwright-report-*"'
     required: false
     default: 'playwright-report-*'
   multi-sites:

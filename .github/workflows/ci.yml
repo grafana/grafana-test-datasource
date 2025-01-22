@@ -135,6 +135,7 @@ jobs:
         id: resolve-versions
         uses: grafana/plugin-actions/e2e-version@main
         with:
+          limit: 1
           version-resolver-type: plugin-grafana-dependency
           grafana-dependency: '>=8.5.0'
 

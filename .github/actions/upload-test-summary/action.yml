@@ -23,6 +23,10 @@ inputs:
     description: 'Token for the repository. Can be passed in using `{{ secrets.GITHUB_TOKEN }}`.'
     required: false
     default: ${{ github.token }}
+  artifact-prefix:
+    description: 'Pattern to prefix the artifact with. Default is "playwright-report-"'
+    required: false
+    default: 'playwright-report-'
   upload-successful:
     description: 'Whether to upload the report if the test was successful.'
     required: false
@@ -55,6 +59,6 @@ runs:
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
-        name: playwright-report-${{ inputs.grafana-image }}-v${{ inputs.grafana-version }}
+        name: ${{ inputs.artifact-prefix }}${{ inputs.grafana-image }}-v${{ inputs.grafana-version }}
         path: playwright-report
         retention-days: 1
