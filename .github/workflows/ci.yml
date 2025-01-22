@@ -187,6 +187,7 @@ jobs:
 
       - name: Upload e2e test summary
         uses: ./.github/actions/upload-test-summary
+        if: ${{ always() }}
         with:
           test-outcome: ${{ steps.run-tests.outcome }}
 
