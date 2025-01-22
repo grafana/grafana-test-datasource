@@ -51,7 +51,7 @@ runs:
         cd ${{ inputs.source-dir }} || { echo "Failed to enter directory ${{ inputs.source-dir }}"; exit 1; }
 
         # Initialize the table
-        table="### Playwright test results \n| Image Name | Version | Result | Report |\n|:------ |:------ |:------: |:------: |:------: |"
+        table="### Playwright test results \n| Image Name | Version | Result | Report |\n|:---------- |:------- |:------: |:------: |"
 
         # Iterate through subdirectories
         for dir in */; do
@@ -79,7 +79,7 @@ runs:
             else
               # Handle missing summary.txt
               table="${table}
-        | ${dir_name} | UNKNOWN | UNKNOWN | ❓ | No report available |"
+        | ${dir_name} | UNKNOWN | ❓ | No report available |"
             fi
           fi
         done
