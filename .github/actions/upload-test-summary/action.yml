@@ -42,11 +42,9 @@ runs:
     - name: Write test result to file
       shell: bash
       run: |
-        REPORT_LINK="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/${{ steps.timestampid.outputs.timestamp }}/${{ github.event.number }}/${{ matrix.GRAFANA_IMAGE.NAME }}-v${{ matrix.GRAFANA_IMAGE.VERSION }}/"
         SUMMARY="GRAFANA_IMAGE=${{ matrix.GRAFANA_IMAGE.NAME }}
         GRAFANA_VERSION=${{ matrix.GRAFANA_IMAGE.VERSION }}
-        OUTPUT=${{ steps.run-tests.outcome }}
-        REPORT_LINK=${REPORT_LINK}"
+        OUTPUT=${{ inputs.test-outcome }}
 
         echo "${SUMMARY}" > ./playwright-report/${{ matrix.GRAFANA_IMAGE.NAME }}-v${{ matrix.GRAFANA_IMAGE.VERSION }}/summary.txt
 
