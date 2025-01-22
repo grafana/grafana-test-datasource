@@ -13,8 +13,7 @@ inputs:
     required: false
   test-outcome:
     description: 'Outcome of the test step'
-    default: ${{ steps.run-tests.outcome }}
-    required: false
+    required: true
   github-token:
     description: 'Token for the repository. Can be passed in using `{{ secrets.GITHUB_TOKEN }}`.'
     required: false
