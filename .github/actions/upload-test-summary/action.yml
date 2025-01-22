@@ -44,7 +44,7 @@ runs:
       run: |
         SUMMARY="GRAFANA_IMAGE=${{ matrix.GRAFANA_IMAGE.NAME }}
         GRAFANA_VERSION=${{ matrix.GRAFANA_IMAGE.VERSION }}
-        OUTPUT=${{ inputs.test-outcome }}
+        OUTPUT=${{ inputs.test-outcome }}"
 
         echo "${SUMMARY}" > ./playwright-report/${{ matrix.GRAFANA_IMAGE.NAME }}-v${{ matrix.GRAFANA_IMAGE.VERSION }}/summary.txt
 
