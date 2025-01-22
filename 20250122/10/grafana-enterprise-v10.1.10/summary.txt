@@ -1,0 +1,4 @@
+GRAFANA_IMAGE=grafana-enterprise
+GRAFANA_VERSION=10.1.10
+OUTPUT=
+REPORT_LINK=https://grafana.github.io/grafana-test-datasource//10/grafana-enterprise-v10.1.10/
