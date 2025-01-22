@@ -1,4 +1,4 @@
-name: 'Publish to GH pages'
+name: 'Upload test summary to GitHub artifact'
 description: ''
 author: 'frontend@grafana'
 
