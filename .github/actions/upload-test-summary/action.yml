@@ -45,7 +45,6 @@ runs:
         SUMMARY="GRAFANA_IMAGE=${{ inputs.grafana-image }}
         GRAFANA_VERSION=${{ inputs.grafana-version }}
         OUTPUT=${{ inputs.test-outcome }}"
-
         echo "${SUMMARY}" > ./playwright-report/${{ inputs.grafana-image }}-v${{ inputs.grafana-version }}/summary.txt
 
     - name: Upload artifacts
