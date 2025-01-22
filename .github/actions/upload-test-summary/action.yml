@@ -27,6 +27,7 @@ runs:
   using: "composite"
   steps:
     - name: rename report
+      shell: bash
       run: |
         mv playwright-report ${{ matrix.GRAFANA_IMAGE.NAME }}-v${{ matrix.GRAFANA_IMAGE.VERSION }}
         mkdir -p playwright-report
@@ -34,10 +35,12 @@ runs:
 
     - name: remove successful report
       if: ${{ !inputs.upload-successful && inputs.test-outcome == 'success' }}
+      shell: bash
       run: |
         rm -rf playwright-report/${{ matrix.GRAFANA_IMAGE.NAME }}-v${{ matrix.GRAFANA_IMAGE.VERSION }}
 
     - name: Write test result to file
+      shell: bash
       run: |
         REPORT_LINK="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/${{ steps.timestampid.outputs.timestamp }}/${{ github.event.number }}/${{ matrix.GRAFANA_IMAGE.NAME }}-v${{ matrix.GRAFANA_IMAGE.VERSION }}/"
         SUMMARY="GRAFANA_IMAGE=${{ matrix.GRAFANA_IMAGE.NAME }}
