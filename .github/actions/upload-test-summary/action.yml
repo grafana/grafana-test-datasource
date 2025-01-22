@@ -21,7 +21,7 @@ inputs:
   upload-successful:
     description: 'Whether to upload the report if the test was successful.'
     required: false
-    default: true
+    default: false
 
 runs:
   using: "composite"

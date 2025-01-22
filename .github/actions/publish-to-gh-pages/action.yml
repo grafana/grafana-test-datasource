@@ -18,6 +18,14 @@ inputs:
     description: 'Number of days to retain the reports.'
     required: false
     default: 30
+  pr-comment-summary:
+    description: 'Whether to comment the PR with the test results.'
+    required: false
+    default: true
+  artifact-pattern:
+    description: 'Pattern to match the artifacts.'
+    required: false
+    default: 'playwright-report-*'
   multi-sites:
     description: 'Whether to publish multiple sites.'
     required: false
@@ -26,6 +34,13 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - name: Download report artifacts
+      uses: actions/download-artifact@v4
+      with:
+        path: all-reports
+        pattern: ${{ inputs.artifact-pattern }}
+        merge-multiple: true
+
     - name: Delete a comment
       uses: thollander/actions-comment-pull-request@v3
       with:
@@ -43,7 +58,6 @@ runs:
         github_token: ${{ inputs.github-token }}
         publish_dir: ${{ inputs.source-dir }}
         destination_dir: ${{ steps.timestampid.outputs.timestamp }}/${{ inputs.destination-dir }}
-      
     
     - name: Build Markdown Table
       shell: bash
@@ -102,6 +116,7 @@ runs:
 
     - name: Comment PR with Execution Details
       uses: thollander/actions-comment-pull-request@v3
+      if: ${{ inputs.pr-comment-summary == 'true' }}
       with:
         create-if-not-exists: true
         comment-tag: test-results
