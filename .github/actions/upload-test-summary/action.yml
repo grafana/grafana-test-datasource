@@ -28,10 +28,10 @@ runs:
   using: "composite"
   steps:
     - name: rename report
-        run: |
-          mv playwright-report ${{ matrix.GRAFANA_IMAGE.NAME }}-v${{ matrix.GRAFANA_IMAGE.VERSION }}
-          mkdir -p playwright-report
-          mv ${{ matrix.GRAFANA_IMAGE.NAME }}-v${{ matrix.GRAFANA_IMAGE.VERSION }} playwright-report/
+      run: |
+        mv playwright-report ${{ matrix.GRAFANA_IMAGE.NAME }}-v${{ matrix.GRAFANA_IMAGE.VERSION }}
+        mkdir -p playwright-report
+        mv ${{ matrix.GRAFANA_IMAGE.NAME }}-v${{ matrix.GRAFANA_IMAGE.VERSION }} playwright-report/
 
     - name: remove successful report
       if: ${{ !inputs.upload-successful && inputs.test-outcome == 'success' }}
