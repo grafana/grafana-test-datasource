@@ -188,7 +188,8 @@ jobs:
         run: npm run e2e
 
       - name: Upload e2e test summary
-        uses: ./.github/actions/upload-test-artifacts
+        uses: grafana/plugin-actions/upload-test-artifacts@gh-pages
+        # uses: ./.github/actions/upload-test-artifacts
         if: ${{ always() }}
         with:
           test-outcome: ${{ steps.run-tests.outcome }}
@@ -217,7 +218,8 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Publish report
-        uses: ./.github/actions/publish-to-gh-pages
+        uses: grafana/plugin-actions/publish-to-gh-pages@gh-pages
+        # uses: ./.github/actions/publish-to-gh-pages
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           retention-days: 5
