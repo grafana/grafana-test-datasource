@@ -216,6 +216,7 @@ jobs:
 
       - name: Publish report
         uses: grafana/plugin-actions/publish-to-gh-pages@gh-pages
+        # uses: ./.github/actions/publish-to-gh-pages
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           retention-days: 5
