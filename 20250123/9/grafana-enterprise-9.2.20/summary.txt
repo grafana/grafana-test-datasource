@@ -1,3 +1,4 @@
 GRAFANA_IMAGE=grafana-enterprise
 GRAFANA_VERSION=9.2.20
 OUTPUT=success
+PLUGIN_NAME=
