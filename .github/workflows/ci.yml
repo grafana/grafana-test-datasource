@@ -187,7 +187,6 @@ jobs:
 
       - name: Upload e2e test summary
         uses: grafana/plugin-actions/upload-test-artifacts@gh-pages
-        # uses: ./.github/actions/upload-test-artifacts
         if: ${{ always() }}
         with:
           test-outcome: ${{ steps.run-tests.outcome }}
