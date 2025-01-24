@@ -136,6 +136,8 @@ jobs:
         uses: grafana/plugin-actions/e2e-version@main
         with:
           version-resolver-type: plugin-grafana-dependency
+          limit: 2
+          skip-grafana-dev-image: true
           grafana-dependency: '>=8.5.0'
 
   playwright-tests:
