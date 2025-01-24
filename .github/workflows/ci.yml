@@ -186,7 +186,7 @@ jobs:
         run: npm run e2e
 
       - name: Upload e2e test summary
-        uses: grafana/plugin-actions/playwright-gh-pages/upload-report-pages@gh-pages
+        uses: grafana/plugin-actions/playwright-gh-pages/upload-report-artifacts@gh-pages
         if: ${{ always() }}
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -216,7 +216,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Publish report
-        uses: grafana/plugin-actions/playwright-gh-pages/deploy-report-artifacts@gh-pages
+        uses: grafana/plugin-actions/playwright-gh-pages/deploy-report-pages@gh-pages
         # uses: ./.github/actions/publish-to-gh-pages
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
