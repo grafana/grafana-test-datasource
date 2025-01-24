@@ -1,0 +1,4 @@
+GRAFANA_IMAGE=grafana-enterprise
+GRAFANA_VERSION=11.4.0
+OUTPUT=failure
+PLUGIN_NAME=
