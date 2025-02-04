@@ -44,12 +44,7 @@ jobs:
       - name: Unit tests
         run: npm run test:ci
       - name: Build frontend
-        run: |
-          if [ "${{ github.event_name }}" == "push" ] && [ "${{ github.ref }}" == "refs/heads/main" ]; then
-            npm run build -- --profile --json stats.json
-          else
-            npm run build
-          fi
+        run: npm run build
 
       - name: Check for backend
         id: check-for-backend
@@ -110,6 +105,12 @@ jobs:
           mv dist ${{ steps.metadata.outputs.plugin-id }}
           zip ${{ steps.metadata.outputs.archive }} ${{ steps.metadata.outputs.plugin-id }} -r
 
+      # - name: Check plugin.json
+      #   run: |
+      #     docker run --pull=always \
+      #       -v $PWD/$:/archive.zip \
+      #       grafana/plugin-validator-cli -analyzer=metadatavalid /archive.zip
+
       - name: Archive Build
         uses: actions/upload-artifact@v4
         with:
@@ -131,6 +132,9 @@ jobs:
       - name: Resolve Grafana E2E versions
         id: resolve-versions
         uses: grafana/plugin-actions/e2e-version@main
+        with:
+          version-resolver-type: plugin-grafana-dependency
+          grafana-dependency: '>=8.5.0'
 
   playwright-tests:
     needs: [resolve-versions, build]
@@ -195,6 +199,14 @@ jobs:
 
       - name: Stop grafana docker
         run: docker compose down
+
+      - name: Upload server log
+        uses: actions/upload-artifact@v4
+        if: ${{ always() && steps.run-tests.outcome == 'failure' }}
+        with:
+          name: ${{ matrix.GRAFANA_IMAGE.NAME }}-v${{ matrix.GRAFANA_IMAGE.VERSION }}-${{github.run_id}}-server-log
+          path: grafana-server.log
+          retention-days: 5
 
       # Uncomment this step to upload the server log to Github artifacts. Remember Github artifacts are public on the Internet if the repository is public.
       # - name: Upload server log
