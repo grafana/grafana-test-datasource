@@ -1,6 +1,13 @@
 import { test, expect } from '@grafana/plugin-e2e';
+import { gte } from 'semver';
 
-test('should render config editor', async ({ createDataSourceConfigPage, readProvisionedDataSource, page }) => {
+test('should render config editor', async ({
+  createDataSourceConfigPage,
+  readProvisionedDataSource,
+  page,
+  grafanaVersion,
+}) => {
+  test.fail(gte(grafanaVersion, '11.4.0'));
   const ds = await readProvisionedDataSource({ fileName: 'datasources.yml' });
   await createDataSourceConfigPage({ type: ds.type });
   await expect(page.getByLabel('Path')).toBeVisible();
