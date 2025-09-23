@@ -23,6 +23,7 @@ test('should return error if API key is missing', async ({
   readProvisionedDataSource,
   page,
 }) => {
+  console.log('hello');
   const ds = await readProvisionedDataSource({ fileName: 'datasources.yml' });
   const datasourceConfigPage = await createDataSourceConfigPage({ type: ds.type });
   await page.getByLabel('Path').fill('');
