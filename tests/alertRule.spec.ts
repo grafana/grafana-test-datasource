@@ -10,7 +10,7 @@ test('should evaluate to true if query is valid', async ({
 }) => {
   test.skip(semver.lt(grafanaVersion, '9.5.0'));
   const ds = await readProvisionedDataSource({ fileName: 'datasources.yml' });
-  const queryA = alertRuleEditPage.getAlertRuleQueryRow('A');
+  const queryA = await alertRuleEditPage.getQueryRow('A');
   await queryA.datasource.set(ds.name);
   await page.getByRole('textbox', { name: 'Query Text' }).fill('some query');
   await expect(alertRuleEditPage.evaluate()).toBeOK();
@@ -24,7 +24,7 @@ test('should evaluate to false if query is invalid', async ({
 }) => {
   test.skip(semver.lt(grafanaVersion, '9.5.0'));
   const ds = await readProvisionedDataSource({ fileName: 'datasources.yml' });
-  const queryA = alertRuleEditPage.getAlertRuleQueryRow('A');
+  const queryA = await alertRuleEditPage.getQueryRow('A');
   await queryA.datasource.set(ds.name);
   await page.getByRole('textbox', { name: 'Query Text' }).fill('error');
   await expect(alertRuleEditPage.evaluate()).not.toBeOK();
