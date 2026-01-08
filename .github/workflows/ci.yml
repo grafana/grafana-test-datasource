@@ -184,6 +184,14 @@ jobs:
         id: run-tests
         run: npm run e2e
 
+      - name: Upload e2e test summary
+        uses: grafana/plugin-actions/playwright-gh-pages/upload-report-artifacts@upload-report-artifacts/v1.0.1
+        if: ${{ always() && !cancelled() }}
+        with:
+          upload-report: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          test-outcome: ${{ steps.run-tests.outcome }}
+
       - name: Docker logs
         if: ${{ always() && steps.run-tests.outcome == 'failure' }}
         run: |
@@ -200,19 +208,28 @@ jobs:
           path: grafana-server.log
           retention-days: 5
 
-      - name: Publish report to GCS
-        if: ${{ github.repository_owner == 'grafana' && (failure() && steps.run-tests.outcome == 'failure') }}
-        uses: grafana/plugin-actions/publish-report@main
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        if: ${{ always() && steps.run-tests.outcome == 'failure' }}
         with:
-          grafana-version: ${{ matrix.GRAFANA_IMAGE.VERSION }}
-          path: playwright-report
+          name: playwright-report-${{ matrix.GRAFANA_IMAGE.NAME }}-v${{ matrix.GRAFANA_IMAGE.VERSION }}-${{github.run_id}}
+          path: playwright-report/
+          retention-days: 5
 
-      # Uncomment this step to upload the Playwright report to Github artifacts.
-      # If your repository is public, the report will be public on the Internet so beware not to expose sensitive information.
-      # - name: Upload artifacts
-      #   uses: actions/upload-artifact@v4
-      #   if: ${{ always() && steps.run-tests.outcome == 'failure' }}
-      #   with:
-      #     name: playwright-report-${{ matrix.GRAFANA_IMAGE.NAME }}-v${{ matrix.GRAFANA_IMAGE.VERSION }}-${{github.run_id}}
-      #     path: playwright-report/
-      #     retention-days: 5
+      publish-report:
+        if: ${{ always() && !cancelled() }}
+        permissions:
+          contents: write
+          id-token: write
+          pull-requests: write
+        needs: [playwright-tests]
+        runs-on: ubuntu-latest
+        steps:
+          - uses: actions/checkout@v5
+            with:
+              # required for playwright-gh-pages
+              persist-credentials: true
+          - name: Publish report
+            uses: grafana/plugin-actions/playwright-gh-pages/deploy-report-pages@deploy-report-pages/v1.1.0
+            with:
+              github-token: ${{ secrets.GITHUB_TOKEN }}
