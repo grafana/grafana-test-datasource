@@ -1,0 +1,101 @@
+{
+  "name": "react-data-grid",
+  "version": "7.0.0-beta.56",
+  "license": "MIT",
+  "description": "Feature-rich and customizable data grid React component",
+  "keywords": [
+    "react",
+    "data grid"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adazzle/react-data-grid.git"
+  },
+  "bugs": "https://github.com/adazzle/react-data-grid/issues",
+  "type": "module",
+  "exports": {
+    "./lib/styles.css": "./lib/styles.css",
+    ".": {
+      "types": "./lib/index.d.ts",
+      "default": "./lib/index.js"
+    }
+  },
+  "browser": "./lib/index.js",
+  "main": "./lib/index.js",
+  "module": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "files": [
+    "lib"
+  ],
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "scripts": {
+    "start": "vite serve --clearScreen false",
+    "preview": "vite preview",
+    "build:website": "vite build",
+    "build": "rolldown -c",
+    "test": "vitest run",
+    "test:watch": "vitest watch",
+    "format": "biome format --write",
+    "check": "biome check --error-on-warnings",
+    "biome:ci": "biome ci --error-on-warnings",
+    "eslint": "eslint --max-warnings 0 --cache --cache-location .cache/eslint --cache-strategy content",
+    "eslint:fix": "node --run eslint -- --fix",
+    "prettier:check": "prettier --check .",
+    "prettier:format": "prettier --write .",
+    "typecheck": "tsc --build",
+    "prepublishOnly": "npm install && node --run build",
+    "postpublish": "git push --follow-tags origin HEAD"
+  },
+  "dependencies": {
+    "clsx": "^2.0.0"
+  },
+  "devDependencies": {
+    "@babel/preset-typescript": "^7.27.1",
+    "@biomejs/biome": "2.0.0",
+    "@eslint/markdown": "^6.3.0",
+    "@faker-js/faker": "^9.6.0",
+    "@ianvs/prettier-plugin-sort-imports": "^4.4.2",
+    "@linaria/core": "^6.3.0",
+    "@tanstack/react-router": "^1.121.2",
+    "@tanstack/router-plugin": "^1.121.4",
+    "@types/node": "^22.15.16",
+    "@types/react": "^18.3.9",
+    "@types/react-dom": "^18.3.0",
+    "@typescript-eslint/eslint-plugin": "^8.33.1",
+    "@typescript-eslint/parser": "^8.33.1",
+    "@vitejs/plugin-react": "^4.5.2",
+    "@vitest/browser": "^3.2.3",
+    "@vitest/coverage-v8": "^3.2.3",
+    "@vitest/eslint-plugin": "^1.2.1",
+    "@wyw-in-js/rollup": "^0.7.0",
+    "@wyw-in-js/vite": "^0.7.0",
+    "browserslist": "^4.24.5",
+    "eslint": "^9.28.0",
+    "eslint-plugin-jest-dom": "^5.5.0",
+    "eslint-plugin-react": "^7.37.4",
+    "eslint-plugin-react-compiler": "^19.1.0-rc.2",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-hooks-extra": "^1.51.3",
+    "eslint-plugin-sonarjs": "^3.0.2",
+    "eslint-plugin-testing-library": "^7.5.0",
+    "jspdf": "^3.0.1",
+    "jspdf-autotable": "^5.0.2",
+    "playwright": "^1.53.0",
+    "postcss": "^8.5.2",
+    "prettier": "3.5.3",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "rolldown": "^1.0.0-beta.9",
+    "rolldown-plugin-dts": "^0.13.3",
+    "typescript": "~5.8.2",
+    "vite": "^6.3.5",
+    "vitest": "^3.2.3",
+    "vitest-browser-react": "^0.3.0"
+  },
+  "peerDependencies": {
+    "react": "^18.0 || ^19.0",
+    "react-dom": "^18.0 || ^19.0"
+  }
+}

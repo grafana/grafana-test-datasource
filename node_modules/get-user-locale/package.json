@@ -1,0 +1,59 @@
+{
+  "name": "get-user-locale",
+  "version": "3.0.0",
+  "description": "Returns a list of strings representing the user's preferred languages.",
+  "type": "module",
+  "sideEffects": false,
+  "main": "./dist/index.js",
+  "source": "./src/index.ts",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js",
+    "./*": "./*"
+  },
+  "scripts": {
+    "build": "tsc --project tsconfig.build.json",
+    "clean": "rimraf dist",
+    "format": "biome format",
+    "lint": "biome lint",
+    "prepack": "yarn clean && yarn build",
+    "test": "yarn lint && yarn tsc && yarn format && yarn unit",
+    "tsc": "tsc",
+    "unit": "vitest"
+  },
+  "keywords": [
+    "locale",
+    "language",
+    "language-detection"
+  ],
+  "author": {
+    "name": "Wojciech Maj",
+    "email": "kontakt@wojtekmaj.pl"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "memoize": "^10.0.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.9.0",
+    "happy-dom": "^15.10.2",
+    "husky": "^9.0.0",
+    "rimraf": "^6.0.0",
+    "typescript": "^5.5.2",
+    "vitest": "^3.0.5"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wojtekmaj/get-user-locale.git"
+  },
+  "funding": "https://github.com/wojtekmaj/get-user-locale?sponsor=1",
+  "packageManager": "yarn@4.3.1"
+}

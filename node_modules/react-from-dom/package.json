@@ -1,0 +1,112 @@
+{
+  "name": "react-from-dom",
+  "version": "0.7.5",
+  "description": "Convert HTML/XML source code or DOM nodes to React elements",
+  "author": "Gil Barbara <gilbarbara@gmail.com>",
+  "keywords": [
+    "string",
+    "DOM",
+    "converter",
+    "react",
+    "component",
+    "dangerouslySetInnerHTML"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/gilbarbara/react-from-dom.git"
+  },
+  "bugs": {
+    "url": "https://github.com/gilbarbara/react-from-dom/issues"
+  },
+  "homepage": "https://github.com/gilbarbara/react-from-dom#readme",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "exports": {
+    "import": "./dist/index.mjs",
+    "require": "./dist/index.js"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "types": "dist/index.d.ts",
+  "sideEffects": false,
+  "peerDependencies": {
+    "react": "16.8 - 19"
+  },
+  "devDependencies": {
+    "@arethetypeswrong/cli": "^0.17.3",
+    "@gilbarbara/eslint-config": "^0.8.4",
+    "@gilbarbara/prettier-config": "^1.0.0",
+    "@gilbarbara/tsconfig": "^0.2.3",
+    "@size-limit/preset-small-lib": "^11.1.6",
+    "@swc/core": "^1.10.7",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.1.0",
+    "@types/node": "^22.10.6",
+    "@types/react": "^19.0.7",
+    "@types/react-dom": "^19.0.3",
+    "@vitejs/plugin-react-swc": "^3.7.2",
+    "@vitest/coverage-v8": "^2.1.8",
+    "del-cli": "^6.0.0",
+    "husky": "^9.1.7",
+    "is-ci-cli": "^2.2.0",
+    "jest-extended": "^4.0.2",
+    "jsdom": "^26.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "repo-tools": "^0.3.1",
+    "size-limit": "^11.1.6",
+    "ts-node": "^10.9.2",
+    "tsup": "^8.3.5",
+    "typescript": "^5.7.3",
+    "vitest": "^2.1.8"
+  },
+  "scripts": {
+    "build": "npm run clean && tsup",
+    "watch": "tsup --watch",
+    "clean": "del dist/*",
+    "lint": "eslint --fix src test",
+    "test": "is-ci \"test:coverage\" \"test:watch\"",
+    "test:coverage": "vitest run --coverage",
+    "test:watch": "vitest watch",
+    "typecheck": "tsc",
+    "typevalidation": "attw -P",
+    "format": "prettier \"**/*.{js,jsx,json,yml,yaml,css,less,scss,ts,tsx,md,graphql,mdx}\" --write",
+    "validate": "npm run lint && npm run typecheck && npm run test:coverage && npm run build && npm run size && npm run typevalidation",
+    "size": "size-limit",
+    "prepublishOnly": "npm run validate",
+    "prepare": "husky"
+  },
+  "tsup": {
+    "dts": true,
+    "entry": [
+      "src/index.ts"
+    ],
+    "format": [
+      "cjs",
+      "esm"
+    ],
+    "sourcemap": true,
+    "splitting": false
+  },
+  "eslintConfig": {
+    "extends": [
+      "@gilbarbara/eslint-config"
+    ]
+  },
+  "prettier": "@gilbarbara/prettier-config",
+  "size-limit": [
+    {
+      "name": "commonjs",
+      "path": "./dist/index.js",
+      "limit": "5 kB"
+    },
+    {
+      "name": "esm",
+      "path": "./dist/index.mjs",
+      "limit": "5 kB"
+    }
+  ]
+}

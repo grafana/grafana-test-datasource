@@ -1,0 +1,53 @@
+{
+  "name": "@wojtekmaj/date-utils",
+  "version": "2.0.2",
+  "description": "A collection of date-related utilities.",
+  "type": "module",
+  "sideEffects": false,
+  "main": "./dist/index.js",
+  "source": "./src/index.ts",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js",
+    "./*": "./*"
+  },
+  "scripts": {
+    "build": "tsc --project tsconfig.build.json",
+    "clean": "node -e \"fs.rmSync('./dist', { recursive: true, force: true })\"",
+    "format": "biome format",
+    "lint": "biome lint",
+    "prepack": "yarn clean && yarn build",
+    "test": "yarn lint && yarn tsc && yarn format && yarn unit",
+    "tsc": "tsc",
+    "unit": "vitest"
+  },
+  "keywords": [
+    "date",
+    "utils"
+  ],
+  "author": {
+    "name": "Wojciech Maj",
+    "email": "kontakt@wojtekmaj.pl"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@biomejs/biome": "1.9.0",
+    "husky": "^9.0.0",
+    "typescript": "^5.5.2",
+    "vitest": "^3.0.5"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wojtekmaj/date-utils.git"
+  },
+  "funding": "https://github.com/wojtekmaj/date-utils?sponsor=1",
+  "packageManager": "yarn@4.9.1"
+}
