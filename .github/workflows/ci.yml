@@ -136,6 +136,7 @@ jobs:
         with:
           version-resolver-type: plugin-grafana-dependency
           grafana-dependency: '>=8.5.0'
+          skip-grafana-react-19-preview-image: true
 
   playwright-tests:
     needs: [resolve-versions, build]
