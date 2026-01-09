@@ -32,22 +32,15 @@ async function run() {
     const reactImageInputValue = core.getInput(SkipGrafanaReact19PreviewImageInput);
     const isExplicitlyProvided = reactImageInputValue !== '';
 
-    console.log('DEBUG: Repository owner:', repositoryOwner);
-    console.log('DEBUG: Is Grafana org:', isGrafanaOrg);
-    console.log('DEBUG: React image input value:', reactImageInputValue);
-    console.log('DEBUG: Is explicitly provided:', isExplicitlyProvided);
-
     // If input is not explicitly provided, use org-based defaults
     // If input is explicitly provided, always honor it using getBooleanInput
     let skipGrafanaReact19PreviewImage;
     if (!isExplicitlyProvided) {
       // Input not provided: use defaults based on org
       skipGrafanaReact19PreviewImage = !isGrafanaOrg; // false for Grafana org (include), true for external (skip)
-      console.log('DEBUG: Using org-based default, skipGrafanaReact19PreviewImage:', skipGrafanaReact19PreviewImage);
     } else {
       // Input explicitly provided: always honor it
       skipGrafanaReact19PreviewImage = core.getBooleanInput(SkipGrafanaReact19PreviewImageInput);
-      console.log('DEBUG: Using explicit input, skipGrafanaReact19PreviewImage:', skipGrafanaReact19PreviewImage);
     }
 
     const grafanaDependency = core.getInput(GrafanaDependencyInput);
@@ -107,13 +100,9 @@ async function run() {
       }
     }
 
-    console.log('DEBUG: Final skipGrafanaReact19PreviewImage value:', skipGrafanaReact19PreviewImage);
     if (!skipGrafanaReact19PreviewImage) {
-      console.log('DEBUG: Adding React 19 preview image');
       // Add hardcoded Grafana React 19 preview image
       images.push({ name: 'grafana', version: 'dev-preview-react19' });
-    } else {
-      console.log('DEBUG: Skipping React 19 preview image');
     }
 
     console.log('Resolved images: ', images);
