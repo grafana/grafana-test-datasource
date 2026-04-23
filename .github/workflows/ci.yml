@@ -176,7 +176,7 @@ jobs:
           DEVELOPMENT=false GRAFANA_VERSION=${{ matrix.GRAFANA_IMAGE.VERSION }} GRAFANA_IMAGE=${{ matrix.GRAFANA_IMAGE.NAME }} docker compose up -d
 
       - name: Wait for grafana server
-        uses: grafana/plugin-actions/wait-for-grafana@main
+        uses: grafana/plugin-actions/wait-for-grafana@fix/wait-for-grafana-smarter-timeout
 
       - name: Install Playwright Browsers
         run: npm exec playwright install chromium --with-deps
