@@ -38,3 +38,4 @@ ci/
 
 .eslintcache
 .vscode
+axe-report.json
