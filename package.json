@@ -16,6 +16,7 @@
   "author": "Grafana",
   "license": "Apache-2.0",
   "devDependencies": {
+    "@axe-core/playwright": "^4.11.3",
     "@babel/core": "^7.21.4",
     "@grafana/eslint-config": "^8.2.0",
     "@grafana/plugin-e2e": "^3.7.0",
