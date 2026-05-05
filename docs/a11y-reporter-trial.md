@@ -190,6 +190,15 @@ The output shape can stay as-is for v1; refinements (per-plugin sharding, denorm
 - **The full-page-scan-in-a-plugin pattern is mostly noise.** Every scan against a plugin's editor surface in this trial was dominated by Grafana chrome violations (panel header buttons, breadcrumbs, sidebar, react-select internals, pane resize widgets). Plugin authors who do full-page scans will spend their time `ignoredRules`-ing things they can't fix. The docs should lead with the scoped-include pattern, not the full-page pattern - which makes the `include`-Locator fix even more urgent.
 - **The chrome violations themselves are upstream issues** for the grafana team to triage. Notably `label` (react-select hidden inputs) and `button-name` (panel options group toggles) appear in nearly every editor surface and are marked `critical`.
 
+### Cross-version drift (added after CI)
+
+The plugin's CI runs the e2e suite across a Grafana version matrix (8.5.27, 9.3.16, 11.0.11, 12.1.10, 13.0.1, dev-preview-react19, nightly). Even with this small a11y suite, two distinct version-drift problems showed up immediately:
+
+1. **New chrome elements add new violations on newer Grafana.** The variable editor's "Static Options toggle" switch (added in Grafana 13+) lacks a label and triggers a `label` violation. Versions 8.5.27 - 12.1.10 don't have it. Tests that passed yesterday's matrix can fail on tomorrow's chrome.
+2. **The string-only `include` is brittle across versions.** The selector `[aria-label="Query editor row"]` matches on stable Grafana but matches nothing on dev-preview-react19 and nightly - the row's aria-label was apparently dropped on those builds. We worked around it by OR-falling-back to a data-testid prefix selector, but this is exactly the kind of fragility a Locator-aware `include` API would eliminate (because the plugin-e2e PageObjectModel locator finds the element across all matrix versions; only our hand-written CSS struggles).
+
+These two together strengthen the recommendation in §5: until the fixture accepts Locators, plugin authors who want stable a11y CI across a Grafana version matrix have to either babysit per-version selectors or expand `ignoredRules` reactively as Grafana's UI evolves. Neither is sustainable.
+
 ---
 
 ## Appendix: violations summary from the trial

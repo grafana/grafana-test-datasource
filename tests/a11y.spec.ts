@@ -64,7 +64,12 @@ test.describe(
       // passing a Locator (as suggested in #2457) fails with a serialization
       // error. tracked in the trial findings doc.
       const results = await scanForA11yViolations({
-        include: '[aria-label="Query editor row"]',
+        // string-only include is fragile across grafana versions: the row's
+        // aria-label is gone on react19/nightly but still present on stable.
+        // we OR-fallback to a data-testid prefix to cover both. exact reason
+        // a Locator-aware include API would be better; tracked in the findings.
+        include:
+          '[aria-label="Query editor row"], [data-testid^="data-testid Query editor row"]',
       });
       expect(results).toHaveNoA11yViolations();
     });
@@ -83,6 +88,7 @@ test.describe(
       expect(results).toHaveNoA11yViolations({
         ignoredRules: [
           'link-in-text-block', // grafana docs link in variable editor description
+          'label', // grafana 13+ "Static Options toggle" switch lacks a label
         ],
       });
     });
