@@ -64,7 +64,7 @@ test.describe(
       // passing a Locator (as suggested in #2457) fails with a serialization
       // error. tracked in the trial findings doc.
       const results = await scanForA11yViolations({
-        include: '[data-testid="data-testid Query editor row"]',
+        include: '[aria-label="Query editor row"]',
       });
       expect(results).toHaveNoA11yViolations();
     });
