@@ -1,0 +1,235 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e3]:
+  - generic [ref=e4]:
+    - link [ref=e5] [cursor=pointer]:
+      - /url: "#pageContent"
+      - generic [ref=e6]: Skip to main content
+    - generic [ref=e7]:
+      - generic [ref=e8]:
+        - generic [ref=e9]:
+          - link [ref=e10] [cursor=pointer]:
+            - /url: /
+            - img [ref=e11]
+          - generic [ref=e12]: Grafana
+        - button [ref=e13] [cursor=pointer]:
+          - img [ref=e14]
+        - button [ref=e16] [cursor=pointer]:
+          - img [ref=e17]
+      - navigation [ref=e19]:
+        - list [ref=e23]:
+          - listitem [ref=e24]:
+            - link [ref=e28] [cursor=pointer]:
+              - /url: /
+              - generic [ref=e30]:
+                - img [ref=e31]
+                - paragraph [ref=e33]: Home
+          - listitem [ref=e34]:
+            - generic [ref=e35]:
+              - link [ref=e38] [cursor=pointer]:
+                - /url: /bookmarks
+                - generic [ref=e40]:
+                  - img [ref=e41]
+                  - paragraph [ref=e43]: Bookmarks
+              - button [ref=e45] [cursor=pointer]:
+                - img [ref=e46]
+          - listitem [ref=e48]:
+            - generic [ref=e49]:
+              - link [ref=e52] [cursor=pointer]:
+                - /url: /dashboards?starred
+                - generic [ref=e54]:
+                  - img [ref=e55]
+                  - paragraph [ref=e57]: Starred
+              - button [ref=e59] [cursor=pointer]:
+                - img [ref=e60]
+          - listitem [ref=e62]:
+            - generic [ref=e63]:
+              - link [ref=e66] [cursor=pointer]:
+                - /url: /dashboards
+                - generic [ref=e68]:
+                  - img [ref=e69]
+                  - paragraph [ref=e71]: Dashboards
+              - button [ref=e73] [cursor=pointer]:
+                - img [ref=e74]
+          - listitem [ref=e76]:
+            - link [ref=e80] [cursor=pointer]:
+              - /url: /explore
+              - generic [ref=e82]:
+                - img [ref=e83]
+                - paragraph [ref=e85]: Explore
+          - listitem [ref=e86]:
+            - generic [ref=e87]:
+              - link [ref=e90] [cursor=pointer]:
+                - /url: /drilldown
+                - generic [ref=e92]:
+                  - img [ref=e93]
+                  - paragraph [ref=e98]: Drilldown
+              - button [ref=e100] [cursor=pointer]:
+                - img [ref=e101]
+          - listitem [ref=e103]:
+            - generic [ref=e104]:
+              - link [ref=e107] [cursor=pointer]:
+                - /url: /a/grafana-assistant-app
+                - generic [ref=e109]:
+                  - img [ref=e110]
+                  - paragraph [ref=e113]: Assistant
+              - button [ref=e115] [cursor=pointer]:
+                - img [ref=e116]
+          - listitem [ref=e118]:
+            - generic [ref=e119]:
+              - link [ref=e122] [cursor=pointer]:
+                - /url: /alerting
+                - generic [ref=e124]:
+                  - img [ref=e125]
+                  - paragraph [ref=e127]: Alerting
+              - button [ref=e129] [cursor=pointer]:
+                - img [ref=e130]
+          - listitem [ref=e132]:
+            - generic [ref=e133]:
+              - link [ref=e136] [cursor=pointer]:
+                - /url: /connections
+                - generic [ref=e138]:
+                  - img [ref=e139]
+                  - paragraph [ref=e141]: Connections
+              - button [expanded] [ref=e143] [cursor=pointer]:
+                - img [ref=e144]
+            - list [ref=e146]:
+              - listitem [ref=e147]:
+                - link [ref=e151] [cursor=pointer]:
+                  - /url: /connections/add-new-connection
+                  - paragraph [ref=e154]: Add new connection
+              - listitem [ref=e155]:
+                - link [ref=e159] [cursor=pointer]:
+                  - /url: /connections/datasources
+                  - paragraph [ref=e162]: Data sources
+          - listitem [ref=e163]:
+            - generic [ref=e164]:
+              - link [ref=e167] [cursor=pointer]:
+                - /url: /admin
+                - generic [ref=e169]:
+                  - img [ref=e170]
+                  - paragraph [ref=e172]: Administration
+              - button [ref=e174] [cursor=pointer]:
+                - img [ref=e175]
+    - banner [ref=e177]:
+      - generic [ref=e178]:
+        - navigation [ref=e180]:
+          - list [ref=e181]:
+            - listitem [ref=e182]:
+              - link [ref=e183] [cursor=pointer]:
+                - /url: /connections
+                - text: Connections
+              - img [ref=e185]
+            - listitem [ref=e187]:
+              - link [ref=e188] [cursor=pointer]:
+                - /url: /connections/datasources
+                - text: Data sources
+              - img [ref=e190]
+            - listitem [ref=e192]:
+              - generic [ref=e193]: grafana-test-datasource-6801c96b-6296-4957-ba02-748623dff6f2
+        - generic [ref=e194]:
+          - generic [ref=e196]:
+            - img [ref=e198]
+            - button [ref=e200] [cursor=pointer]: Search...
+            - generic [ref=e202]: ctrl+k
+          - button [ref=e203] [cursor=pointer]:
+            - img [ref=e204]
+            - img [ref=e206]
+          - button [ref=e209] [cursor=pointer]:
+            - img [ref=e210]
+          - button [ref=e213] [cursor=pointer]:
+            - img [ref=e214]
+          - button [ref=e218] [cursor=pointer]:
+            - img [ref=e219]
+    - main [ref=e222]:
+      - log [ref=e223]
+      - generic [ref=e226]:
+        - generic [ref=e228]:
+          - generic [ref=e229]:
+            - generic [ref=e230]:
+              - img [ref=e231]
+              - generic [ref=e233]:
+                - heading [level=1] [ref=e234]: grafana-test-datasource-6801c96b-6296-4957-ba02-748623dff6f2
+                - button [ref=e235] [cursor=pointer]:
+                  - img [ref=e236]
+            - generic [ref=e238]:
+              - generic [ref=e239]:
+                - generic [ref=e240]: Type
+                - text: Test-Datasource
+              - generic [ref=e242]:
+                - generic [ref=e243]: Alerting
+                - generic [ref=e244]: Supported
+          - generic [ref=e245]:
+            - button [ref=e246] [cursor=pointer]:
+              - generic [ref=e247]: Make default
+            - link [ref=e248] [cursor=pointer]:
+              - /url: /explore?left=%7B%22datasource%22:%22grafana-test-datasource-6801c96b-6296-4957-ba02-748623dff6f2%22,%22context%22:%22explore%22%7D
+              - generic [ref=e249]: Explore data
+            - link [ref=e250] [cursor=pointer]:
+              - /url: dashboard/new-with-ds/aflrlag3ex1j4b
+              - generic [ref=e251]: Build a dashboard
+        - tablist [ref=e254]:
+          - tab [selected] [ref=e256] [cursor=pointer]:
+            - img [ref=e257]
+            - text: Settings
+          - tab [ref=e260] [cursor=pointer]:
+            - img [ref=e261]
+            - text: Permissions
+            - img [ref=e264]
+          - tab [ref=e267] [cursor=pointer]:
+            - img [ref=e268]
+            - text: Insights
+            - img [ref=e271]
+          - tab [ref=e274] [cursor=pointer]:
+            - img [ref=e275]
+            - text: Cache
+            - img [ref=e278]
+        - generic [ref=e281]:
+          - generic [ref=e283]:
+            - generic [ref=e284]:
+              - text: Path
+              - img [ref=e285]
+            - textbox [active] [ref=e290]:
+              - /placeholder: Enter the path, e.g. /api/v1
+              - text: example.com
+          - generic [ref=e291]:
+            - button [ref=e292] [cursor=pointer]:
+              - generic [ref=e293]: Delete
+            - button [ref=e294] [cursor=pointer]:
+              - generic [ref=e295]: Save & test
+  - dialog "What's new in Grafana" [ref=e297]:
+    - generic [ref=e298]:
+      - button "Close" [ref=e299] [cursor=pointer]:
+        - img [ref=e300]
+      - generic [ref=e304]:
+        - generic [ref=e305]: NEW
+        - heading "Grafana Assistant is now available to OSS users" [level=2] [ref=e306]
+        - generic [ref=e307]:
+          - img [ref=e309]
+          - paragraph [ref=e312]: Use AI to handle everything from config to query generation
+          - list [ref=e313]:
+            - listitem [ref=e314]:
+              - generic [ref=e316]: Explore your data by prompting Assistant to generate queries for you
+            - listitem [ref=e317]:
+              - generic [ref=e319]: Create comprehensive dashboards in minutes
+            - listitem [ref=e320]:
+              - generic [ref=e322]: Onboard new team members in days, not weeks
+        - generic [ref=e323]:
+          - navigation "Slide navigation" [ref=e324]:
+            - button "Previous slide" [ref=e325] [cursor=pointer]:
+              - img [ref=e326]
+            - tablist [ref=e328]:
+              - tab "Go to slide 1" [selected] [ref=e329] [cursor=pointer]
+              - tab "Go to slide 2" [ref=e330] [cursor=pointer]
+              - tab "Go to slide 3" [ref=e331] [cursor=pointer]
+              - tab "Go to slide 4" [ref=e332] [cursor=pointer]
+            - button "Next slide" [ref=e333] [cursor=pointer]:
+              - img [ref=e334]
+            - generic "Slide 1 of 4" [ref=e336]: 1/4
+          - link "Show me" [ref=e337] [cursor=pointer]:
+            - /url: http://localhost:3000/plugins/grafana-assistant-app/?src=grafana-oss&cnt=whats-new-modal
+            - img [ref=e338]
+            - generic [ref=e340]: Show me
+      - generic [ref=e341]: "Slide 1 of 4: Grafana Assistant is now available to OSS users"
+```
