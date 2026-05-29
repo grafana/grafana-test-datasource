@@ -9,5 +9,13 @@
     "github>grafana/grafana-renovate-config//presets/helm",
     "github>grafana/grafana-renovate-config//presets/shared-workflows",
     "github>grafana/grafana-renovate-config//presets/rate-limits"
+  ],
+  "packageRules": [
+    {
+      "description": "group all non-major dev dependency updates into a single PR to reduce noise",
+      "matchDepTypes": ["devDependencies"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "devDependencies (non-major)"
+    }
   ]
 }
