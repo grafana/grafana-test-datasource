@@ -131,7 +131,7 @@ jobs:
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
       - name: Resolve Grafana E2E versions
         id: resolve-versions
-        uses: grafana/plugin-actions/e2e-version@4cf3371519fe9b49b9ab7bf09d9ada4c13749e0a # main
+        uses: grafana/plugin-actions/e2e-version@304ed38a05911eda030608b10ff9ca59616e465c # main
         with:
           version-resolver-type: plugin-grafana-dependency
           grafana-dependency: '>=8.5.0'
@@ -174,7 +174,7 @@ jobs:
           DEVELOPMENT=false GRAFANA_VERSION=${{ matrix.GRAFANA_IMAGE.VERSION }} GRAFANA_IMAGE=${{ matrix.GRAFANA_IMAGE.NAME }} docker compose up -d
 
       - name: Wait for grafana server
-        uses: grafana/plugin-actions/wait-for-grafana@4cf3371519fe9b49b9ab7bf09d9ada4c13749e0a # main
+        uses: grafana/plugin-actions/wait-for-grafana@304ed38a05911eda030608b10ff9ca59616e465c # main
 
       - name: Install Playwright Browsers
         run: npm exec playwright install chromium --with-deps
