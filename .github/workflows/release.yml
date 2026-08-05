@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-      - uses: grafana/plugin-actions/build-plugin@4cf3371519fe9b49b9ab7bf09d9ada4c13749e0a # main
+      - uses: grafana/plugin-actions/build-plugin@464757cd5d4fe8f5549cb8bd099767ecd50ea557 # main
         # Uncomment to enable plugin signing
         # (For more info on how to generate the access policy token see https://grafana.com/developers/plugin-tools/publish-a-plugin/sign-a-plugin#generate-an-access-policy-token)
         #with:
