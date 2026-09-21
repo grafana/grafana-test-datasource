@@ -5,3 +5,4 @@ test('should render query editor', async ({ panelEditPage, readProvisionedDataSo
   await panelEditPage.datasource.set(ds.name);
   await expect(panelEditPage.getQueryEditorRow('A').getByRole('textbox', { name: 'Query Text' })).toBeVisible();
 });
+
