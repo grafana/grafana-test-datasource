@@ -1,6 +1,6 @@
 {
   "$schema": "https://raw.githubusercontent.com/grafana/grafana/main/docs/sources/developers/plugins/plugin.schema.json",
-  "type": "datasource",
+  "type": "panel",
   "name": "Test-Datasource",
   "id": "grafana-test-datasource",
   "metrics": true,
@@ -26,5 +26,6 @@
   "dependencies": {
     "grafanaDependency": ">=9.5.0",
     "plugins": []
-  }
+  },
+  "docsPath": "catalogDocs"
 }
