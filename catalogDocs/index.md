@@ -24,10 +24,9 @@ sidebar_position: 1
 
 > 📝 **Fill this in:** List the jobs someone lands here to do, phrased as tasks rather than page titles, each linked to the page that answers it. For a typical panel plugin this might look like:
 >
-> - [Shape your query results for Test-Datasource](./data-formats.md)
-> - [Configure panel and field options](./options.md)
-> - [See worked dashboard.json examples](./examples.md)
-> - [Fix a panel that isn't rendering correctly](./troubleshooting.md)
+> - [Configure the data source](./configuration.md)
+> - [Write queries](./query-editor.md)
+> - [Check how every markdown feature renders](./markdown-tests/index.md)
 >
 > Adapt this to Test-Datasource's actual entry points - add, remove or reword tasks so each one matches a real job a user comes here to do. This is a curated set of jobs, not a mechanical list of every file in this folder.
 
