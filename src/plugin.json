@@ -24,7 +24,8 @@
     "updated": "%TODAY%"
   },
   "dependencies": {
-    "grafanaDependency": ">=9.5.0",
+    "grafanaDependency": ">=9.5.0-0",
     "plugins": []
-  }
+  },
+  "docsPath": "catalogDocs"
 }

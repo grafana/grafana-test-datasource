@@ -1,6 +1,6 @@
 {
   "name": "test-datasource",
-  "version": "0.0.7",
+  "version": "0.0.14",
   "scripts": {
     "build": "webpack -c ./.config/webpack/webpack.config.ts --env production",
     "dev": "webpack -w -c ./.config/webpack/webpack.config.ts --env development",
@@ -11,13 +11,17 @@
     "lint:fix": "npm run lint -- --fix && prettier --write --list-different .",
     "e2e": "playwright test",
     "server": "docker compose up --build",
-    "sign": "npx --yes @grafana/sign-plugin@latest"
+    "sign": "npx --yes @grafana/sign-plugin@latest",
+    "docs:serve": "plugin-docs-cli serve --port 3001 --reload",
+    "docs:validate": "plugin-docs-cli validate --strict --allow-unfilled-stubs",
+    "docs:validate:release": "plugin-docs-cli validate --strict"
   },
   "author": "Grafana",
   "license": "Apache-2.0",
   "devDependencies": {
     "@babel/core": "7.29.7",
     "@grafana/eslint-config": "8.2.0",
+    "@grafana/plugin-docs-cli": "0.6.0",
     "@grafana/plugin-e2e": "3.10.0",
     "@grafana/tsconfig": "2.2.0",
     "@playwright/test": "1.62.1",
