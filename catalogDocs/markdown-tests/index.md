@@ -16,6 +16,7 @@ These pages exist to test how plugin docs render. Each page covers one group of 
 - [Callouts](./callouts.md) - the five callout types and plain quotes
 - [Collapsible sections](./collapsible.md) - closed, open and nested details blocks
 - [Nested page](./nested/page.md) - a page in a subfolder, used for relative link and image checks
+- [Snippets](./snippets.md) - shared snippets, and the cases where the fallback text shows
 
 ## Index marker
 
