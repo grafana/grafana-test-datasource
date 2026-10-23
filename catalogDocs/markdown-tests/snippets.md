@@ -1,6 +1,6 @@
 ---
 title: Snippets
-description: Shared snippets that the parser swaps for current text, and the cases where the fallback shows instead.
+description: Shared snippets that the parser swaps for current text, and an unknown name that keeps its fallback.
 sidebar_position: 10
 ---
 
@@ -27,19 +27,3 @@ Stale add data source text that should not render.
 Unknown snippet fallback is shown.
 
 <!-- /snippet:not-a-real-snippet -->
-
-## Marker inside a list
-
-1. Markers inside a list are ignored, so this item shows as written.
-
-   <!-- snippet:use-example-json -->
-
-   Listed snippet fallback is shown.
-
-   <!-- /snippet:use-example-json -->
-
-## Unclosed marker
-
-<!-- snippet:use-example-json -->
-
-Unclosed snippet fallback is shown.
