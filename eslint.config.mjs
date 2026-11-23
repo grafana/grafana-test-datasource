@@ -34,6 +34,17 @@ export default defineConfig([
   },
   ...baseConfig,
   {
+    // eslint-plugin-react 7.37.5 calls context.getFilename(), which ESLint 10 removed.
+    // Its "detect" mode crashes because of that call, so set the React version explicitly.
+    // Remove this block when eslint-plugin-react ships ESLint 10 support
+    // (https://github.com/jsx-eslint/eslint-plugin-react/pull/4022).
+    settings: {
+      react: {
+        version: '19.0',
+      },
+    },
+  },
+  {
     plugins: {
       '@sunker/is-compatible': sunkerIsCompatible,
     },
