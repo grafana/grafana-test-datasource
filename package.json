@@ -21,7 +21,7 @@
     "@grafana/plugin-e2e": "3.10.0",
     "@grafana/tsconfig": "2.2.0",
     "@playwright/test": "1.62.1",
-    "@stylistic/eslint-plugin": "5.10.0",
+    "@stylistic/eslint-plugin": "6.0.1",
     "@sunker/eslint-plugin-is-compatible": "0.0.4",
     "@swc/core": "1.15.47",
     "@swc/helpers": "0.5.23",
